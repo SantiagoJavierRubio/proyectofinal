@@ -1,16 +1,24 @@
 import express from 'express'
 import "dotenv/config"
+import * as rutasProductos from './rutas/productos'
+import * as rutasCarrito from './rutas/carrito'
 
+// SERVER SETUP
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
+// RUTAS BASE
 app.get('/', (req, res) => {
     res.send('Bienvenido a mi servidor!')
 })
 
+// RUTAS API
+app.use('/api/productos', rutasProductos)
+app.use('/api/carrito', rutasCarrito)
 
+// HANDLE 404
 const handleBadRoute = (req, res) => {
     res.status(404).json({
         error: -2,
@@ -19,6 +27,7 @@ const handleBadRoute = (req, res) => {
 }
 app.use(handleBadRoute)
 
+// START SERVER
 const PORT = process.env.PORT || 8080
 const server = app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`)
