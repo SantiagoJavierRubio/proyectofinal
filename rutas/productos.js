@@ -1,4 +1,8 @@
 import { Router } from 'express'
+import { getAll,
+    nuevoProducto,
+    editarProducto,
+    eliminarProducto } from '../logica/productos.js'
 
 const revisarAutorizacion = (req, res, next) => {
     // Aquí iría la lógica para revisar si el usuario está o no autorizado
