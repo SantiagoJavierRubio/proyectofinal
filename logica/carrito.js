@@ -1,25 +1,58 @@
 import Carritos from '../persist/carrito.js'
 import Productos from '../persist/productos.js'
 
-const crearCarrito = (req, res, next) => {
+const carritos = new Carritos()
+const productos = new Productos()
 
+export const crearCarrito = async (req, res, next) => {
+    try{
+        const nuevoCarrito = await carritos.createNew()
+        if(!nuevoCarrito) return res.sendStatus(500)
+        res.status(200).json({ id: nuevoCarrito })
+    } catch(err) {
+        console.error(err)
+    }
 }
-const eliminarCarrito = (req, res, next) => {
-
+export const eliminarCarrito = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const deletedCarrito = await carritos.deleteById(id)
+        if(!deletedCarrito) return res.sendStatus(500)
+        res.sendStatus(200)
+    } catch(err) {
+        console.error(err)
+    }
 }
-const obtenerLista = (req, res, next) => {
-
+export const obtenerLista = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const listaProductos = await carritos.getProducts(id)
+        if(!listaProductos) return res.sendStatus(500)
+        res.status(200).json(listaProductos)
+    } catch(err) {
+        console.error(err)
+    }
 }
-const agregarProductos = (req, res, next) => {
-
+export const agregarProductos = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const userInput = req.body.productos
+        const productList = await productos.getManyById(userInput)
+        const nuevoCarrito = await carritos.addProducts(id, productList)
+        if(!nuevoCarrito) return res.sendStatus(500)
+        res.sendStatus(200)
+    } catch(err) {
+        console.error(err)
+    }
 }
-const quitarProducto = (req, res, next) => {
-
-}
-
-export { crearCarrito,
-    eliminarCarrito,
-    obtenerLista,
-    agregarProductos,
-    quitarProducto,
+export const quitarProducto = async (req, res, next) => {
+    try{
+        const id = req.params.id
+        const id_prod = req.params.id_prod
+        const deletedProduct = await carritos.removeProduct(id, id_prod)
+        if(!deletedProduct) return res.sendStatus(500)
+        res.sendStatus(200)
+    } catch(err) {
+        console.error(err)
+    }
 }
