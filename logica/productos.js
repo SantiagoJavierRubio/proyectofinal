@@ -1,6 +1,4 @@
-import Productos from "../persist/productos.js"
-
-const productos = new Productos()
+import productos from "../persist/productos.js"
 
 export const getAll = async (req, res, next) => {
     try {
