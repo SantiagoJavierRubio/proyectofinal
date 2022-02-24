@@ -1,6 +1,20 @@
 import carritos from '../persist/carrito.js'
 import productos from '../persist/productos.js'
 
+export const checkExists = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const exists = await carritos.checkExists(id)
+        if(!exists) {
+            res.sendStatus(404)
+            return res.end() 
+        } else {
+            return next()
+        }
+    } catch(err) {
+        console.log(err)
+    }
+}
 export const crearCarrito = async (req, res, next) => {
     try{
         const nuevoCarrito = await carritos.createNew()

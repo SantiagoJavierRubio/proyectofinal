@@ -5,7 +5,7 @@ export const getAll = async (req, res, next) => {
         const id = req.params.id
         if(id){
             const product = await productos.getById(id)
-            if(!product) return res.sendStatus(500)
+            if(!product) return res.sendStatus(404)
             return res.status(200).json(product) 
         } else {
             const productList = await productos.getAll()
@@ -29,6 +29,8 @@ export const nuevoProducto = async (req, res, next) => {
 export const editarProducto = async (req, res, next) => {
     try {
         const id = req.params.id
+        const exists = await productos.getById(id)
+        if(!exists) return res.sendStatus(404)
         const userInput = req.body
         const editedProduct = await productos.updateById(id, userInput)
         if(!editedProduct) return res.sendStatus(500)
@@ -40,10 +42,25 @@ export const editarProducto = async (req, res, next) => {
 export const eliminarProducto = async (req, res, next) => {
     try {
         const id = req.params.id
+        const exists = await productos.getById(id)
+        if(!exists) return res.sendStatus(404)
         const deletedProduct = await productos.deleteById(id)
         if(!deletedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
         console.error(err)
+    }
+}
+export const revisarAutorizacion = async (req, res, next) => {
+    // Aquí iría la lógica para revisar si el usuario está o no autorizado
+    const auth = true
+    // -- //
+    if(auth) {
+        return next()
+    } else {
+        res.status(401).json({
+            error: -1,
+            description: `ruta '${req.url} método ${req.method} no autorizada`
+        })
     }
 }
