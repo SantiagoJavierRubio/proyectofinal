@@ -53,7 +53,7 @@ export const eliminarProducto = async (req, res, next) => {
 }
 export const revisarAutorizacion = async (req, res, next) => {
     // Aquí iría la lógica para revisar si el usuario está o no autorizado
-    const auth = true
+    const administrador = true
     // -- //
     if(auth) {
         return next()
