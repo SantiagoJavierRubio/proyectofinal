@@ -1,15 +1,13 @@
-import ContenedorArchivos from "../../contenedores/ContenedorArchivos.js"
+import ContenedorFirebase from "../../contenedores/ContenedorFirebase.js"
 
-class Carrito extends ContenedorArchivos {
-    constructor() { super('carrito.json') }
+class Carrito extends ContenedorFirebase {
+    constructor(db) {
+        super(db.collection('carrito'))
+    }
 
     async createNew() {
         try {
-            const carrito = await this.save({
-                id: await this.getNewId(),
-                timestamp: Date.now(),
-                productos: []
-            })
+            const carrito = await this.save({ productos: [] })
             return carrito.id
         } catch(err) {
             return new Error(`Error al crear el carrito: ${err}`)
