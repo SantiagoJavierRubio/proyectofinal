@@ -2,6 +2,9 @@
 Proyecto final para el curso de backend de Coderhouse
 
 Para probar el código:
+- Editar el archivo .env.example para que tenga sólo una de las opciones. Cambiar la extensión a sencillamente '.env'
+- En caso de usar mongo, se debe habilitar una sesión en local.
+
 ```bash
 # Clonar el repositorio
 $ git clone https://github.com/cabrerarodrigo/proyectofinal
@@ -11,15 +14,14 @@ $ npm install
 
 # Correr el servidor (utiliza el puerto 8080)
 $ npm run start
+#
 
-```
-```bash
-# Alternativamente se puede utilizar con nodemon con el comando
+# Alternativamente se puede utilizar con nodemon con los comandos
+$ npm i nodemon -D
 $ npm run dev
 ```
 
-Primera entrega -> 
-- Almacena el carrito del cliente en localStorage, si está deshabilitado (por ej en modo incógnito) las funciones del carrito no estarán disponibles
-- Vienen cargados los .json de almacenamiento para facilitar las pruebas, pero se puede borrar manualmente (vaciándolos o eliminándolos) o mediante las funciones del front para probar desde 0
-- Desde el lado del servidor sólo se manejan los errores estipulados en la consigna (rutas incorrectas y falta de autorización)
-- Para ver como sería sin autorización de administrador cambiar el siguiente valor a false: https://github.com/cabrerarodrigo/proyectofinal/blob/master/rutas/productos.js#:~:text=const%20auth%20%3D-,true,-//%20%2D%2D%20//
+Segunda entrega -> 
+- Seleccionar el tipo de persistencia de datos en el archivo .env
+- La variable 'administrador' establece los permisos necesarios
+- Las pruebas con el front-end no están actualizadas, sólo las probé con Postman
