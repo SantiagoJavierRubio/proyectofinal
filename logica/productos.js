@@ -1,5 +1,4 @@
-import daos from "../daos/daoManager.js"
-const productos = daos.productos
+import productos from '../daos/mongo/productos.js'
 
 export const getAll = async (req, res, next) => {
     try {
