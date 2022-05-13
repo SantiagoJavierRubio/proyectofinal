@@ -1,7 +1,8 @@
 import "dotenv/config"
+import { mongooseDir } from "../config.js"
 
 const getDaos = async () => {
-    switch(process.env.DATA_ACCESS_TYPE){
+    switch(process.env.DB){
         case 'MEMORIA':
             const { default: CarritoMemoria } = await import('./memoria/carrito.js')
             const { default: ProductosMemoria } = await import('./memoria/productos.js')
@@ -12,7 +13,7 @@ const getDaos = async () => {
             return { carritos: new CarritoArchivo(), productos: new ProductosArchivo() }
         case 'MONGODB':
             const { default: mongoose } = await import('mongoose')
-            mongoose.connect('mongodb://localhost:27017/ecommerce')
+            mongoose.connect(mongooseDir)
             const { default: CarritoMongo } = await import('./mongo/carrito.js')
             const { default: ProductosMongo } = await import('./mongo/productos.js')
             return { carritos: new CarritoMongo(), productos: new ProductosMongo() }
