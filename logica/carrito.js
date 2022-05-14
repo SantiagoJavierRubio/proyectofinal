@@ -1,6 +1,7 @@
 import productos from '../daos/mongo/productos.js'
 import carritos from '../daos/mongo/carrito.js'
 import { enviarNuevoPedido } from '../messaging/emails.js'
+import { avisarNuevoPedido, enviarSmsAlUsuario } from '../messaging/phoneMessages.js'
 
 export const eliminarCarrito = async (req, res, next) => {
     try{
@@ -50,7 +51,11 @@ export const realizarCompra = async (req, res) => {
         if(listaIds.error) throw new Error(listaIds.error)
         const listaProductos = await productos.getMany(listaIds)
         if(!listaProductos) return res.sendStatus(500)
-        enviarNuevoPedido({productos: listaProductos, user: req.user})
+        await enviarNuevoPedido({productos: listaProductos, user: req.user})
+        const whatsapp = await avisarNuevoPedido({productos: listaProductos, user: req.user})
+        if(whatsapp.error) throw new Error(`Error al enviar mensaje al administrador: ${whatsapp.error}`)
+        const avisoUsuario = await enviarSmsAlUsuario(req.user)
+        if(avisoUsuario.error) throw new Error(`Error al enviar mensaje al usuario: ${avisoUsuario.error}`)
         const deletedCarrito = await carritos.empty(req.user._id)
         if(deletedCarrito.error) throw new Error(deletedCarrito.error)
         res.sendStatus(200) 
