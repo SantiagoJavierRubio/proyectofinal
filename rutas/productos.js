@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import passport from 'passport'
+import checkAuth from '../passport/checkAuth.js'
 import { getAll,
     nuevoProducto,
     editarProducto,
@@ -8,7 +8,7 @@ import { getAll,
 
 const router = Router()
 
-router.use(passport.authenticate('local', {failureRedirect: '/login'}))
+router.use(checkAuth)
 router.get('/:id?', getAll)
 router.post('/', revisarAutorizacion, nuevoProducto)
 router.put('/:id', revisarAutorizacion, editarProducto)
