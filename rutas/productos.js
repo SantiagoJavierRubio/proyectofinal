@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import checkAuth from '../passport/checkAuth.js'
 import { getAll,
     nuevoProducto,
     editarProducto,
@@ -7,6 +8,7 @@ import { getAll,
 
 const router = Router()
 
+router.use(checkAuth)
 router.get('/:id?', getAll)
 router.post('/', revisarAutorizacion, nuevoProducto)
 router.put('/:id', revisarAutorizacion, editarProducto)

@@ -1,5 +1,5 @@
-import daos from "../daos/daoManager.js"
-const productos = daos.productos
+import productos from '../daos/mongo/productos.js'
+import {errorLogger} from '../loggers/logger.js'
 
 export const getAll = async (req, res, next) => {
     try {
@@ -10,21 +10,23 @@ export const getAll = async (req, res, next) => {
             return res.status(200).json(product) 
         } else {
             const productList = await productos.getAll()
-            if(!productList) return res.sendStatus(500)
+            if(!productList) return res.sendStatus(404)
             return res.status(200).json(productList)
         }
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const nuevoProducto = async (req, res, next) => {
     try {
         const userInput = req.body
         const addedProduct = await productos.createNew(userInput)
-        if(!addedProduct) return res.sendStatus(500)
+        if(addedProduct.error) throw new Error(addedProduct.error)
         return res.status(200).send(addedProduct)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const editarProducto = async (req, res, next) => {
@@ -37,7 +39,8 @@ export const editarProducto = async (req, res, next) => {
         if(!editedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const eliminarProducto = async (req, res, next) => {
@@ -49,7 +52,8 @@ export const eliminarProducto = async (req, res, next) => {
         if(!deletedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const revisarAutorizacion = async (req, res, next) => {

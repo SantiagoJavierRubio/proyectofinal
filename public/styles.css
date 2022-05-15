@@ -7,15 +7,26 @@
     gap: 1rem;
     margin-top: 3.5rem;
 }
-body>a {
+#viewchange {
     position: absolute;
     left: 1.5rem;
     top: 0.5rem;
 }
-body>button {
+.actions {
     position: absolute;
     top: 0.5rem;
     right: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+#profile-link {
+    font-size: 2rem;
+    border-radius: 50%;
+}
+#profile-link i {
+    margin: auto
 }
 #carrito-de-compras {
     width: 100%;

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto final - registro</title>
+</head>
+<body>
+    <form method="POST" action="/auth/register">
+        <div><label for="nombre">Nombre</label><input type="text" id="nombre" name="nombre" required></div>
+        <div><label for="email">Email</label><input type="email" id="email" name="email" required></div>
+        <div><label for="password">Contraseña</label><input type="password" id="password" name="password" required></div>
+        <div><label for="edad">Fecha de nacimiento</label><input type="date" id="edad" name="edad" required></div>
+        <div><label for="tel">Telefono</label>
+            <input type="text" name="areacode" required placeholder="Area code" maxlength="4">
+            <input type="tel" id="tel" name="telefono" required>
+        </div>
+        <div><label for="dir">Direccion</label><input type="text" id="dir" name="direccion" required></div>
+        <div><label for="foto">Foto/avatar</label><input type="url" id="foto" name="foto" required></div>
+        <input type="submit" value="Registrarme">
+    </form>
+    <p>Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
+</body>
+</html>
