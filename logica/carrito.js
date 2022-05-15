@@ -2,6 +2,7 @@ import productos from '../daos/mongo/productos.js'
 import carritos from '../daos/mongo/carrito.js'
 import { enviarNuevoPedido } from '../messaging/emails.js'
 import { avisarNuevoPedido, enviarSmsAlUsuario } from '../messaging/phoneMessages.js'
+import {errorLogger} from '../loggers/logger.js'
 
 export const eliminarCarrito = async (req, res, next) => {
     try{
@@ -9,7 +10,8 @@ export const eliminarCarrito = async (req, res, next) => {
         if(deletedCarrito.error) throw new Error(deletedCarrito.error)
         res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const obtenerLista = async (req, res, next) => {
@@ -20,7 +22,8 @@ export const obtenerLista = async (req, res, next) => {
         if(!listaProductos) return res.sendStatus(500)
         res.status(200).json(listaProductos)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const agregarProductos = async (req, res, next) => {
@@ -30,7 +33,8 @@ export const agregarProductos = async (req, res, next) => {
         if(nuevoCarrito.error) throw new Error(nuevoCarrito.error)
         res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const quitarProducto = async (req, res, next) => {
@@ -41,7 +45,8 @@ export const quitarProducto = async (req, res, next) => {
         if(!deletedProduct) return res.sendStatus(500)
         res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 
@@ -53,14 +58,19 @@ export const realizarCompra = async (req, res) => {
         if(!listaProductos) return res.sendStatus(500)
         await enviarNuevoPedido({productos: listaProductos, user: req.user})
         const whatsapp = await avisarNuevoPedido({productos: listaProductos, user: req.user})
-        if(whatsapp.error) throw new Error(`Error al enviar mensaje al administrador: ${whatsapp.error}`)
+        if(whatsapp.error) {
+            errorLogger.error(`Error al enviar mensaje al administrador: ${whatsapp.error}`)
+        }
         const avisoUsuario = await enviarSmsAlUsuario(req.user)
-        if(avisoUsuario.error) throw new Error(`Error al enviar mensaje al usuario: ${avisoUsuario.error}`)
+        if(avisoUsuario.error) {
+            errorLogger.error(`Error al enviar mensaje al usuario: ${avisoUsuario.error}`)
+        }
         const deletedCarrito = await carritos.empty(req.user._id)
         if(deletedCarrito.error) throw new Error(deletedCarrito.error)
         res.sendStatus(200) 
     }
     catch(err) {
-        console.log(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
