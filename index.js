@@ -89,6 +89,20 @@ app.use(handleBadRoute)
 
 // START SERVER
 const PORT = process.env.PORT || args.puerto
+
+const startServer = () => {
+    mongoose.connect(MONGO_URL, (err) => {
+        if(err) return console.log(err)
+        console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
+    })    
+    const server = app.listen(PORT, () => {
+        console.log(`Servidor escuchando en el puerto ${PORT}`)
+    })
+    server.on('error', (err) => {
+        console.log(`Server error: ${err}`)
+    })
+}
+
 if(args.modo === 'cluster') {
     const { default: cluster } = await import('cluster')
     const { default: os } = await import('os')
@@ -102,26 +116,8 @@ if(args.modo === 'cluster') {
             console.log(`worker ${worker.process.pid} died`)
         })
     } else {
-        mongoose.connect(MONGO_URL, (err) => {
-            if(err) return console.log(err)
-            console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
-        })    
-        const server = app.listen(PORT, () => {
-            console.log(`Servidor escuchando en el puerto ${PORT}`)
-        })
-        server.on('error', (err) => {
-            console.log(`Server error: ${err}`)
-        })        
+        startServer()
     }
 } else {
-    mongoose.connect(MONGO_URL, (err) => {
-        if(err) return console.log(err)
-        console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
-    })    
-    const server = app.listen(PORT, () => {
-        console.log(`Servidor escuchando en el puerto ${PORT}`)
-    })
-    server.on('error', (err) => {
-        console.log(`Server error: ${err}`)
-    })
+    startServer()
 }
