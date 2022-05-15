@@ -1,7 +1,6 @@
 import express from 'express'
 import "dotenv/config"
 import cookieParser from 'cookie-parser'
-import os from 'os'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
@@ -23,7 +22,7 @@ const yargs = __yargs(process.argv.slice(2))
 const args = yargs
     .default('puerto', 8080)
     .default('localDB', false)
-    .default('CLUSTER', false)
+    .default('modo', 'fork')
     .argv
 
 const MONGO_URL = args.localDB ? process.env.LOCAL_MONGO_URL : process.env.CLOUD_MONGO_URL
@@ -89,16 +88,40 @@ const handleBadRoute = (req, res) => {
 app.use(handleBadRoute)
 
 // START SERVER
-mongoose.connect(MONGO_URL, (err) => {
-    if(err) return console.log(err)
-    console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
-})
-
 const PORT = process.env.PORT || args.puerto
-
-const server = app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`)
-})
-server.on('error', (err) => {
-    console.log(`Server error: ${err}`)
-})
+if(args.modo === 'cluster') {
+    const { default: cluster } = await import('cluster')
+    const { default: os } = await import('os')
+    if(cluster.isMaster) {
+        console.log(`Master ${process.pid} is running`)
+        const cpuCount = os.cpus().length
+        for(let i = 0; i < cpuCount; i++) {
+            cluster.fork()
+        }
+        cluster.on('exit', (worker, code, signal) => {
+            console.log(`worker ${worker.process.pid} died`)
+        })
+    } else {
+        mongoose.connect(MONGO_URL, (err) => {
+            if(err) return console.log(err)
+            console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
+        })    
+        const server = app.listen(PORT, () => {
+            console.log(`Servidor escuchando en el puerto ${PORT}`)
+        })
+        server.on('error', (err) => {
+            console.log(`Server error: ${err}`)
+        })        
+    }
+} else {
+    mongoose.connect(MONGO_URL, (err) => {
+        if(err) return console.log(err)
+        console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
+    })    
+    const server = app.listen(PORT, () => {
+        console.log(`Servidor escuchando en el puerto ${PORT}`)
+    })
+    server.on('error', (err) => {
+        console.log(`Server error: ${err}`)
+    })
+}
