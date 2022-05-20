@@ -3,7 +3,7 @@ window.onload = loadProducts
 function loadProducts(){
     const listaDeProductos = document.querySelector('#lista-de-productos')
     listaDeProductos.innerHTML = ''
-    fetch('/api/productos', { method: 'GET', credentials: 'include' })
+    fetch('/productos', { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(data => {
             if(data.length > 0){
@@ -63,7 +63,7 @@ function listenToForms() {
             event.preventDefault()
             const formData = new FormData(event.target)
             const jsonForm = Object.fromEntries(formData)
-            fetch(`/api/productos/${event.target.dataset.id}`, {
+            fetch(`/productos/${event.target.dataset.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(jsonForm),
                 headers: {'Content-Type': 'application/json'}
@@ -79,7 +79,7 @@ function listenToForms() {
 }
 
 function deleteProduct(prod_id) {
-    fetch(`/api/productos/${prod_id}`, {
+    fetch(`/productos/${prod_id}`, {
         method: "DELETE"
     })
         .then(res => {
@@ -94,7 +94,7 @@ document.querySelector('#new-product-form').addEventListener('submit', event => 
     const formData = new FormData(event.target)
     const jsonForm = Object.fromEntries(formData)
     event.target.reset()
-    fetch(`/api/productos`, {
+    fetch(`/productos`, {
         method: 'POST',
         body: JSON.stringify(jsonForm),
         headers: {'Content-Type': 'application/json'}
