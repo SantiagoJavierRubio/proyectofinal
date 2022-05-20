@@ -34,8 +34,11 @@ export const register = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        req.logOut()
-        res.redirect('/login')
+        req.logout()
+        req.session.destroy(() => {
+            res.clearCookie('connect.sid')
+            res.redirect('/')
+        })
     }
     catch(err) {
         errorLogger.error(err)
