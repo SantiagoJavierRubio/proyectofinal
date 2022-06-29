@@ -60,8 +60,7 @@ class ContenedorMongoDB {
     async deleteById(id) {
         try {
             const deleted = await this.model.findByIdAndDelete(id)
-            if(!deleted) throw new Error('elemento no encontrado')
-            return true
+            return deleted
         } catch(err) {
             return new Error(`Error al eliminar elemento: ${err}`)
         }
@@ -70,7 +69,6 @@ class ContenedorMongoDB {
     async update(id, elemento) {
         try {
             const updated = await this.model.findByIdAndUpdate(id, elemento)
-            if(!updated) throw new Error('elemento no encontrado')
             return updated
         } catch(err) {
             return new Error(`Error al actualizar elemento: ${err}`)
