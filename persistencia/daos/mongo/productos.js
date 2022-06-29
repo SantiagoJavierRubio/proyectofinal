@@ -3,7 +3,7 @@ import ContenedorMongoDB from '../../contenedores/ContenedorMongoDB.js'
 import CustomError from '../../../error_handling/customError.js'
 import { v4 as uuid } from 'uuid'
 
-class Productos extends ContenedorMongoDB {
+export default class Productos extends ContenedorMongoDB {
     constructor() { super(Model) }
 
     async edit(id, userInput) {
@@ -38,6 +38,3 @@ class Productos extends ContenedorMongoDB {
         return await this.deleteById(id)
     }
 }
-
-const productos = new Productos()
-export default productos

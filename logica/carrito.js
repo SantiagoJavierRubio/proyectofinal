@@ -1,7 +1,10 @@
-import productos from '../persistencia/daos/mongo/productos.js'
-import carritos from '../persistencia/daos/mongo/carrito.js'
+import { getProductosDAO } from '../persistencia/factories/productosDAOFactory.js'
+import { getCarritoDAO } from '../persistencia/factories/carritoDAOFactory.js'
 import { enviarNuevoPedido } from '../messaging/emails.js'
 import { avisarNuevoPedido, enviarSmsAlUsuario } from '../messaging/phoneMessages.js'
+
+const productos = getProductosDAO()
+const carritos = getCarritoDAO()
 
 export const eliminarProductosDelCarrito = async (userId) => {
     const deletedCarrito = await carritos.empty(req.user._id)

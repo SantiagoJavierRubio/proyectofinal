@@ -1,5 +1,7 @@
-import productos from '../persistencia/daos/mongo/productos.js'
+import { getProductosDAO } from '../persistencia/factories/productosDAOFactory.js'
 import "dotenv/config"
+
+const productos = getProductosDAO()
 
 export const obtenerProductos = async (id) => {
     return id ? await productos.findOneById(id) : await productos.getAll()

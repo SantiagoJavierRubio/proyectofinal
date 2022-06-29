@@ -2,7 +2,7 @@ import ContenedorMongoDB from "../../contenedores/ContenedorMongoDB.js"
 import Model from '../../Database/MongoDB/Models/carrito.js'
 import CustomError from '../../../error_handling/customError.js'
 
-class Carrito extends ContenedorMongoDB {
+export default class Carrito extends ContenedorMongoDB {
     constructor() { super(Model) }
 
     async getUniqueOrCreate(user_id) {
@@ -40,6 +40,3 @@ class Carrito extends ContenedorMongoDB {
         return await this.update(id, carro)
     }
 }
-
-const carritos = new Carrito()
-export default carritos

@@ -3,7 +3,7 @@ import ContenedorMongoDB from "../../contenedores/ContenedorMongoDB.js"
 import CustomError from '../../../error_handling/customError.js'
 import { encrypt, compare } from '../../../utils/encryption.js'
 
-class Usuario extends ContenedorMongoDB {
+export default class Usuario extends ContenedorMongoDB {
     constructor() { super(Model) }
     async createNew(userData) {
         if(!userData.email || !userData.password ||
@@ -25,6 +25,3 @@ class Usuario extends ContenedorMongoDB {
         return autorizado
     }
 }
-
-const usuarios = new Usuario()
-export default usuarios
