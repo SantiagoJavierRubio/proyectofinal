@@ -1,17 +1,19 @@
 import passport from 'passport'
 import * as passportLocal from 'passport-local'
-import usuarios from '../daos/mongo/usuarios.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAO.factory.js'
+
+const usuarios = getUsuariosDAO()
 
 const LocalStrategy = passportLocal.Strategy
 
 passport.use('local', new LocalStrategy(
     {
-        usernameField: "email"
+        usernameField: "email",
     },
     async function(username, password, done) {
         try {
             const user = await usuarios.checkCredentials(username, password)
-            if(user.error) return done(null, null)
+            if(!user) return done(null, null)
             return done(null, user)
         }
         catch(err) {

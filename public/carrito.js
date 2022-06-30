@@ -22,7 +22,7 @@ function loadProducts(){
                         <div class="col-sm-4">
                             <p class="precio-carrito">$${product.precio}</p>
                         </div>
-                        <button type="button" class="btn btn-danger remove-item-carrito" onclick="removeProduct('${product._id}')">
+                        <button type="button" class="btn btn-danger remove-item-carrito" onclick="removeProduct('${product.id}')">
                             <span class="material-icons">delete</span>
                         </button>
                     </div>
