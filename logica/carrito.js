@@ -1,5 +1,5 @@
-import { getProductosDAO } from '../persistencia/factories/productosDAOFactory.js'
-import { getCarritoDAO } from '../persistencia/factories/carritoDAOFactory.js'
+import { getProductosDAO } from '../persistencia/factories/productosDAO.factory.js'
+import { getCarritoDAO } from '../persistencia/factories/carritoDAO.factory.js'
 import { enviarNuevoPedido } from '../messaging/emails.js'
 import { avisarNuevoPedido, enviarSmsAlUsuario } from '../messaging/phoneMessages.js'
 

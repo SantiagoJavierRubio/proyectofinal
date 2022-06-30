@@ -1,10 +1,10 @@
-import { getProductosDAO } from '../persistencia/factories/productosDAOFactory.js'
+import { getProductosDAO } from '../persistencia/factories/productosDAO.factory.js'
 import "dotenv/config"
 
 const productos = getProductosDAO()
 
 export const obtenerProductos = async (id) => {
-    return id ? await productos.findOneById(id) : await productos.getAll()
+    return id ? await productos.findOneById(id) : await productos.listAll()
 }
 
 export const crearProducto = async (productData) => {
@@ -16,5 +16,5 @@ export const cambiarInfoDeProducto = async (id, data) => {
 }
 
 export const eliminarProductoPorId = async (id) => {
-    return await productos.deleteById(id)
+    return await productos.remove(id)
 }

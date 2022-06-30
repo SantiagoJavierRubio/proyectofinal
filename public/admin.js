@@ -11,7 +11,7 @@ function loadProducts(){
                 for (let product of data) {
                     let date = new Date(product.timestamp)
                     listaDeProductos.innerHTML += `
-                    <form data-id=${product._id} class="col-sm-5 product-edit-form">
+                    <form data-id=${product.id} class="col-sm-5 product-edit-form">
                         <div class="card">
                             <img class="card-img-top" src="${product.foto}" alt="Foto del producto">
                             <input class="form-control" type="text" name="foto" value="${product.foto}" />
@@ -40,7 +40,7 @@ function loadProducts(){
                                 </ul>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-success">Actualizar</button>
-                                    <button type="button" class="btn btn-danger" onclick="deleteProduct('${product._id}')">
+                                    <button type="button" class="btn btn-danger" onclick="deleteProduct('${product.id}')">
                                         Eliminar
                                     </button>
                                 </div>
