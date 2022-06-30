@@ -1,5 +1,6 @@
 import ContenedorMongoDB from "../../contenedores/ContenedorMongoDB.js"
 import Model from '../../Database/MongoDB/Models/carrito.js'
+import SendCarritoDTO from '../../DTOs/sendCarrito.dto.js'
 import CustomError from '../../../error_handling/customError.js'
 
 export default class Carrito extends ContenedorMongoDB {
@@ -23,20 +24,24 @@ export default class Carrito extends ContenedorMongoDB {
         const carro = await this.getById(id)
         if(!carro) throw new CustomError(404, 'Carro no encontrado')
         carro.productos = [ ...carro.productos, ...product_list ]
-        return await this.update(id, carro)
+        await this.update(id, carro)
+        return new SendCarritoDTO(carro)
     }
     async removeProduct(user_id, product_id) {
         const id = await this.getUniqueOrCreate(user_id)
         const carro = await this.getById(id)
         if(!carro) throw new CustomError(404, 'Carro no encontrado')
         carro.productos = carro.productos.filter(prod => prod != product_id)
-        return await this.update(id, carro)
+        await this.update(id, carro)
+        return new SendCarritoDTO(carro)
     }
     async empty(user_id) {
         const id = await this.getUniqueOrCreate(user_id)
         const carro = await this.getById(id)
-        if(!carro) throw new CustomError(404, 'Carro no encontrado')
+        if (!carro) throw new CustomError(404, 'Carro no encontrado')
+        if (carro.productos.length < 1) throw new CustomError(400, 'El carro ya está vacío')
         carro.productos = []
-        return await this.update(id, carro)
+        await this.update(id, carro)
+        return new SendCarritoDTO(carro)
     }
 }

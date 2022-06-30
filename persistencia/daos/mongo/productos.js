@@ -2,6 +2,7 @@ import Model from '../../Database/MongoDB/Models/producto.js'
 import ContenedorMongoDB from '../../contenedores/ContenedorMongoDB.js'
 import CustomError from '../../../error_handling/customError.js'
 import SendProductDTO from '../../DTOs/sendProduct.dto.js'
+import ProductoCarritoDTO from '../../DTOs/productoCarrito.dto.js';
 import { v4 as uuid } from 'uuid'
 
 export default class Productos extends ContenedorMongoDB {
@@ -17,6 +18,11 @@ export default class Productos extends ContenedorMongoDB {
         const result = await this.getById(id)
         if(!result) throw new CustomError(404, 'Producto no encontrado')
         return new SendProductDTO(result)
+    }
+
+    async getListByIds(idList) {
+        const result = await this.getMany(idList)
+        return result.map(product => new ProductoCarritoDTO(product))
     }
 
     async listAll() {
