@@ -32,6 +32,6 @@ router.get('/register', (req, res) => {
 router.get('/profile', checkAuth, (req, res) => {
   res.render('profile');
 });
-router.get('/admin', serveAdmin);
+router.get('/admin', checkAuth, serveAdmin);
 
 export default router;

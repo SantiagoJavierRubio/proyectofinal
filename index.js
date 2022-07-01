@@ -20,12 +20,13 @@ import __dirname from './dirname.js';
 const yargs = __yargs(process.argv.slice(2));
 const args = yargs
   .default('puerto', 8080)
-  .default('localDB', false)
   .default('modo', 'fork').argv;
 
-const MONGO_URL = args.localDB
-  ? process.env.LOCAL_MONGO_URL
-  : process.env.CLOUD_MONGO_URL;
+const DATABASE_LOCATION = process.env.NODE_ENV === 'production'
+
+const MONGO_URL = DATABASE_LOCATION
+  ? process.env.CLOUD_MONGO_URL
+  : process.env.LOCAL_MONGO_URL;
 
 // SERVER SETUP
 const app = express();
@@ -70,7 +71,7 @@ app.set('view engine', 'hbs');
 
 // RUTAS FRONT
 app.get('/', checkAuth, (req, res) => {
-  res.render('home', { admin: process.env.ADMIN_MODE });
+  res.render('home', { admin: req.isAdmin });
 });
 app.use('/auth', rutasAuth);
 app.use('/productos', rutasProductos);
@@ -87,7 +88,7 @@ const startServer = () => {
   mongoose.connect(MONGO_URL, (err) => {
     if (err) return logger.error(err);
     logger.info(
-      `MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`
+      `MongoDB conectado a ${DATABASE_LOCATION ? 'cloud atlas' : 'local'}`
     );
   });
   const server = app.listen(PORT, () => {
