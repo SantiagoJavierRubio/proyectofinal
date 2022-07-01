@@ -1,13 +1,13 @@
-import "dotenv/config"
-import mongoDAO from '../daos/mongo/carrito.js'
+import 'dotenv/config';
+import MongoDAO from '../daos/mongo/carrito.js';
 
-let carritoDAO
+let carritoDAO;
 
-switch(process.env.DATABASE) {
-    default:
-        carritoDAO = new mongoDAO()
+switch (process.env.DATABASE) {
+  default:
+    carritoDAO = new MongoDAO();
 }
 
 export const getCarritoDAO = () => {
-    return carritoDAO
-}
+  return carritoDAO;
+};
