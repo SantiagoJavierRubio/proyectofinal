@@ -1,13 +1,13 @@
-import "dotenv/config"
-import mongoDAO from '../daos/mongo/productos.js'
+import 'dotenv/config';
+import MongoDAO from '../daos/mongo/productos.js';
 
-let productosDAO
+let productosDAO;
 
-switch(process.env.DATABASE) {
-    default:
-        productosDAO = new mongoDAO()
+switch (process.env.DATABASE) {
+  default:
+    productosDAO = new MongoDAO();
 }
 
 export const getProductosDAO = () => {
-    return productosDAO
-}
+  return productosDAO;
+};
