@@ -9,16 +9,6 @@ export default class Usuario extends ContenedorMongoDB {
   }
 
   async createNew(userData) {
-    if (
-      !userData.email ||
-      !userData.password ||
-      !userData.nombre ||
-      !userData.foto ||
-      !userData.direccion ||
-      !userData.edad ||
-      !userData.telefono
-    )
-      throw new CustomError(400, 'Campos requeridos faltantes');
     const existe = await this.getOne({ email: userData.email });
     if (existe) throw new CustomError(409, 'Email ya registrado');
     const hashedPass = encrypt(userData.password);
