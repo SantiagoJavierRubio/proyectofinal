@@ -40,7 +40,7 @@ export default class Productos extends ContenedorMongoDB {
       codigo: uuid(),
       foto: productData.foto,
       precio: parseFloat(productData.precio),
-      stock: parseInt(productData.stock),
+      stock: parseInt(productData.stock, 10),
     });
     return new SendProductDTO(producto);
   }

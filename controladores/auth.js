@@ -3,9 +3,7 @@ import { registrarUsuario, buscarInfoDelUsuario } from '../logica/auth.js';
 
 export const login = async (req, res, next) => {
   try {
-    return res
-      .status(200)
-      .json({ message: 'Usuario logueado' });
+    return res.status(200).json({ message: 'Usuario logueado' });
   } catch (err) {
     return next(err);
   }
@@ -33,9 +31,7 @@ export const logout = async (req, res, next) => {
     req.logout();
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      res
-        .status(200)
-        .json({ message: 'Usuario deslogueado' });
+      res.status(200).json({ message: 'Usuario deslogueado' });
     });
   } catch (err) {
     return next(err);
