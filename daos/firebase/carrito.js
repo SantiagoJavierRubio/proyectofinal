@@ -49,7 +49,7 @@ class Carrito extends ContenedorFirebase {
         try {
             const carro = await this.getById(id)
             if(!carro) throw new Error('Carro no encontrado')
-            carro.productos = carro.productos.filter(prod => prod.id != product_id)
+            carro.productos = carro.productos.filter(prod => prod != product_id)
             return await this.update(id, carro)
         } catch(err) {
             return new Error(`Error al quitar los productos: ${err}`)
