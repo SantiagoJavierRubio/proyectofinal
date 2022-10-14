@@ -1,7 +1,7 @@
 
 window.onload = loadProducts
 function loadProducts(){
-    fetch(`/api/carrito/productos`, { method: 'GET', credentials: 'include' })
+    fetch(`/carrito/productos`, { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(data => {
             const listaDeProductos = document.querySelector('#carrito-de-compras')
@@ -40,7 +40,7 @@ function loadProducts(){
 }
 
 function removeProduct(prod_id){
-    fetch(`api/carrito/productos/${prod_id}`, {
+    fetch(`/carrito/productos/${prod_id}`, {
         method: "DELETE",
         credentials: 'include'
     })
@@ -52,7 +52,7 @@ function removeProduct(prod_id){
 }
 
 function emptyCart() {
-    fetch(`/api/carrito`, {
+    fetch(`/carrito`, {
         method: "DELETE",
         credentials: 'include'
     })
@@ -66,7 +66,7 @@ function emptyCart() {
 }
 
 function checkout() {
-    fetch('/api/carrito/checkout', {
+    fetch('/carrito/checkout', {
         method: "POST",
         credentials: 'include'
     })

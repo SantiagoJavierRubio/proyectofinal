@@ -4,7 +4,7 @@ function startShop(){
     loadProducts()
 }
 function loadProducts(){
-    fetch('/api/productos', { method: 'GET', credentials: 'include' })
+    fetch('/productos', { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(data => {
             const listaDeProductos = document.querySelector('#lista-de-productos')
@@ -40,7 +40,7 @@ function loadProducts(){
 
 function agregarAlCarrito(id){
     const payload = { productos: [id] }
-    fetch(`/api/carrito/productos`, {
+    fetch(`/carrito/productos`, {
             method: "POST",
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},
