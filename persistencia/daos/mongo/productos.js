@@ -33,24 +33,14 @@ export default class Productos extends ContenedorMongoDB {
     return result.map((product) => new SendProductDTO(product));
   }
 
-  async createNew({ nombre, descripcion, foto, precio, stock }) {
-    if (
-      !nombre ||
-      !descripcion ||
-      !foto ||
-      precio === null ||
-      precio === undefined ||
-      stock === null ||
-      stock === undefined
-    )
-      throw new CustomError(400, 'Campo requerido faltante');
+  async createNew(productData) {
     const producto = await this.save({
-      nombre,
-      descripcion,
+      nombre: productData.nombre,
+      descripcion: productData.descripcion,
       codigo: uuid(),
-      foto,
-      precio,
-      stock,
+      foto: productData.foto,
+      precio: parseFloat(productData.precio),
+      stock: parseInt(productData.stock),
     });
     return new SendProductDTO(producto);
   }
