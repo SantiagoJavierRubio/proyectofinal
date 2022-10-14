@@ -15,7 +15,7 @@ class ContenedorMongoDB {
 
     async getAll() {
         try {
-            const elementos = await this.model.find().sort('-timestamp')
+            const elementos = await this.model.find()
             return elementos
         } catch(err) {
             return new Error(`Error al obtener elementos: ${err}`)

@@ -10,7 +10,7 @@ class Carrito extends ContenedorMemoria {
                 timestamp: Date.now(),
                 productos: []
             })
-            return carrito
+            return carrito.id
         } catch(err) {
             return new Error(`Error al crear el carrito: ${err}`)
         }
