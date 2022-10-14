@@ -11,8 +11,9 @@ $ npm install
 
 # Correr el servidor (utiliza el puerto 8080)
 $ npm run start
-#
-#
+
+```
+```bash
 # Alternativamente se puede utilizar con nodemon con el comando
 $ npm run dev
 ```
