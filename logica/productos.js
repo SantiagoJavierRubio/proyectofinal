@@ -9,7 +9,7 @@ export const getAll = async (req, res, next) => {
             return res.status(200).json(product) 
         } else {
             const productList = await productos.getAll()
-            if(!productList) return res.sendStatus(500)
+            if(!productList) return res.sendStatus(404)
             return res.status(200).json(productList)
         }
     } catch(err) {
@@ -20,7 +20,7 @@ export const nuevoProducto = async (req, res, next) => {
     try {
         const userInput = req.body
         const addedProduct = await productos.createNew(userInput)
-        if(!addedProduct) return res.sendStatus(500)
+        if(addedProduct.error) throw new Error(addedProduct.error)
         return res.status(200).send(addedProduct)
     } catch(err) {
         console.error(err)
