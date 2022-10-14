@@ -1,5 +1,5 @@
-import daos from '../daos/daoManager.js'
-const { productos, carritos } = daos
+import productos from '../daos/mongo/productos.js'
+import carritos from '../daos/mongo/carrito.js'
 
 export const checkExists = async (req, res, next) => {
     try {

@@ -22,4 +22,5 @@ class Productos extends ContenedorMongoDB {
     }
 }
 
-export default Productos
+const productos = new Productos()
+export default productos

@@ -56,4 +56,5 @@ class Carrito extends ContenedorMongoDB {
     }
 }
 
-export default Carrito
+const carritos = new Carrito()
+export default carritos
