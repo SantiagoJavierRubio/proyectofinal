@@ -25,10 +25,10 @@ $ [ADMIN_EMAIL={email}] [ADMIN_PHONE={telefono}] node index.js --puerto={puerto}
 ```
 
 Tercera entrega ->
-    - Eliminé los contenedores y DAOs que no correspondían al trabajo con MongoDB y mongoose
-    - Los DAOs ahora devuelven siempre un objeto {error: mensaje} en caso de fallar
-    - Todos los elementos de configuración pasan a estar en variables de entorno
-    - Los reportes del profiling hechos con artillery se encuentran en el directorio base (modo_fork.txt y modo_cluster.txt)
-    - Los emails y mensajes de texto se enviaran a la dirección por default del administrador si no se especifican otros al iniciar el servidor
-    - Las funcionalidades fueron testeadas por request desde Postman y con el front-end
+- Eliminé los contenedores y DAOs que no correspondían al trabajo con MongoDB y mongoose
+- Los DAOs ahora devuelven siempre un objeto {error: mensaje} en caso de fallar
+- Todos los elementos de configuración pasan a estar en variables de entorno
+- Los reportes del profiling hechos con artillery se encuentran en el directorio base (modo_fork.txt y modo_cluster.txt)
+- Los emails y mensajes de texto se enviaran a la dirección por default del administrador si no se especifican otros al iniciar el servidor
+- Las funcionalidades fueron testeadas por request desde Postman y con el front-end
 
