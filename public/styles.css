@@ -41,12 +41,15 @@
     background-color: beige;
     padding: .75rem;
     flex-grow: 1;
+    margin-bottom: 1rem;
     position: relative;
 }
 .precio-carrito {
     color: green;
     float: right;
     text-align: right;
+    font-weight: 700;
+    font-size: 1.25rem;
 }
 .remove-item-carrito {
     position: absolute;

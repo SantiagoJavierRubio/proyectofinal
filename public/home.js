@@ -28,7 +28,7 @@ function loadProducts() {
                                       product.stock
                                     } en stock</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="agregarAlCarrito('${
+                                <button id="${product.id}" class="btn btn-primary" onclick="agregarAlCarrito('${
                                   product.id
                                 }')" ${
             product.stock > 0 ? null : 'disabled'
@@ -55,8 +55,13 @@ function agregarAlCarrito(id) {
     body: JSON.stringify(payload),
   })
     .then((res) => {
-      if ((res.status = 200)) return alert('Producto añadido');
-      throw new Error(res.statusText);
+      if ((res.status = 200)) {
+        const btn = document.getElementById(id);
+        btn.setAttribute('class', 'btn btn-success disabled');
+        btn.setAttribute('disabled', 'true');
+      } else {
+        throw new Error(res.statusText);
+      } 
     })
     .catch((err) => alert(err.message));
 }
