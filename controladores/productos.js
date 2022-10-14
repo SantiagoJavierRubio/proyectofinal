@@ -45,9 +45,7 @@ export const eliminarProducto = async (req, res, next) => {
   }
 };
 export const revisarAutorizacion = async (req, res, next) => {
-  if (process.env.ADMIN_MODE) {
-    return next();
-  }
+  if (req.isAdmin) return next();
   res.status(401).json({
     error: -1,
     description: `ruta '${req.url} método ${req.method} no autorizada`,
