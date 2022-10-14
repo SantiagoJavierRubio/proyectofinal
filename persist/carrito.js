@@ -2,20 +2,34 @@ import fs from 'fs'
 
 class Carrito {
     constructor() {
-        this.id = Carrito.incrementID()
         this.timestamp = Date.now()
         this.productos = []
     }
-    static incrementID() {
-        if(!this.latestID) this.latestID = 1
-        else this.latestID++
-        return this.latestID
+    async getNewId() {
+        try {
+            if(fs.existsSync(this.filePath)){
+                const fileRead = await fs.promises.readFile(this.filePath)
+                const fileData = JSON.parse(fileRead)
+                let newID = 0
+                for(let carrito of fileData) {
+                    if(carrito.id >= newID){
+                        newID = carrito.id+1
+                    }
+                }
+                return newID
+            } else {
+               return 0
+            }
+        } catch(err) {
+            console.error(err)
+            return null
+        }
     }
     filePath = './persist/DB/carrito.json'
 
     async save() {
         const cartData = {
-            id: this.id,
+            id: await this.getNewId(),
             timestamp: this.timestamp,
             productos: this.productos
         }
@@ -36,7 +50,7 @@ class Carrito {
     }
 }
 
-export default class Carritos {
+class Carritos {
     filePath = './persist/DB/carrito.json'
 
     async createNew() {
@@ -53,7 +67,8 @@ export default class Carritos {
             const fileRead = await fs.promises.readFile(this.filePath)
             const fileData = JSON.parse(fileRead)
             const carro = fileData.filter(cart => cart.id == id)[0]
-            return carro.productos
+            if(!carro) throw new Error('Carro no encontrado')
+            return carro.productos || []
         } catch(err) {
             console.error(err)
             return null
@@ -64,6 +79,7 @@ export default class Carritos {
             const fileRead = await fs.promises.readFile(this.filePath)
             const fileData = JSON.parse(fileRead)
             const carro = fileData.filter(cart => cart.id == id)[0]
+            if(!carro) throw new Error('Carro no encontrado')
             carro.productos = [ ...carro.productos, ...product_list ]
             const newList = [ ...fileData.filter(cart => cart.id != id), carro ]
             await fs.promises.writeFile(this.filePath, JSON.stringify(newList))
@@ -90,6 +106,7 @@ export default class Carritos {
             const fileRead = await fs.promises.readFile(this.filePath)
             const fileData = JSON.parse(fileRead)
             const carro = fileData.filter(cart => cart.id == id)[0]
+            if(!carro) throw new Error('Carro no encontrado')
             carro.productos = carro.productos.filter(prod => prod.id != product_id)
             const newList = [ ...fileData.filter(cart => cart.id != id), carro ]
             await fs.promises.writeFile(this.filePath, JSON.stringify(newList))
@@ -100,3 +117,6 @@ export default class Carritos {
         }
     }
 }
+
+const carritos = new Carritos()
+export default carritos

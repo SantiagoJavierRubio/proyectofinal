@@ -1,8 +1,5 @@
-import Carritos from '../persist/carrito.js'
-import Productos from '../persist/productos.js'
-
-const carritos = new Carritos()
-const productos = new Productos()
+import carritos from '../persist/carrito.js'
+import productos from '../persist/productos.js'
 
 export const crearCarrito = async (req, res, next) => {
     try{
