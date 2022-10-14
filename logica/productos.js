@@ -1,4 +1,5 @@
-import productos from "../persist/productos.js"
+import daos from "../daos/daoManager.js"
+const productos = daos.productos
 
 export const getAll = async (req, res, next) => {
     try {
@@ -21,7 +22,7 @@ export const nuevoProducto = async (req, res, next) => {
         const userInput = req.body
         const addedProduct = await productos.createNew(userInput)
         if(!addedProduct) return res.sendStatus(500)
-        return res.sendStatus(200)
+        return res.status(200).send(addedProduct)
     } catch(err) {
         console.error(err)
     }
@@ -32,7 +33,7 @@ export const editarProducto = async (req, res, next) => {
         const exists = await productos.getById(id)
         if(!exists) return res.sendStatus(404)
         const userInput = req.body
-        const editedProduct = await productos.updateById(id, userInput)
+        const editedProduct = await productos.update(id, userInput)
         if(!editedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
@@ -53,9 +54,9 @@ export const eliminarProducto = async (req, res, next) => {
 }
 export const revisarAutorizacion = async (req, res, next) => {
     // Aquí iría la lógica para revisar si el usuario está o no autorizado
-    const auth = true
+    const administrador = true
     // -- //
-    if(auth) {
+    if(administrador) {
         return next()
     } else {
         res.status(401).json({

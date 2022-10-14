@@ -1,5 +1,5 @@
-import carritos from '../persist/carrito.js'
-import productos from '../persist/productos.js'
+import daos from '../daos/daoManager.js'
+const { productos, carritos } = daos
 
 export const checkExists = async (req, res, next) => {
     try {
@@ -48,7 +48,7 @@ export const agregarProductos = async (req, res, next) => {
     try{
         const id = req.params.id
         const userInput = req.body.productos
-        const productList = await productos.getManyById(userInput)
+        const productList = await productos.getMany(userInput)
         const nuevoCarrito = await carritos.addProducts(id, productList)
         if(!nuevoCarrito) return res.sendStatus(500)
         res.sendStatus(200)
