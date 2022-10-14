@@ -12,11 +12,8 @@ import rutasAuth from './rutas/auth.js'
 import checkAuth from './passport/checkAuth.js'
 import { logger, errorLogger } from './loggers/logger.js'
 import './passport/localStrategy.js'
+import __dirname from './dirname.js'
 
-// Workaround porque no funcionaba __dirname al trabajar en módulos (creo)
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Constantes globales
 const yargs = __yargs(process.argv.slice(2))
@@ -58,26 +55,9 @@ app.use(passport.session())
 app.get('/', checkAuth, (req, res) => {
     res.sendFile('/public/home.html', {root: __dirname})
 })
-app.get('/admin', (req, res) => {
-    res.sendFile('/public/admin.html', {root: __dirname})
-})
-app.get('/carrito', checkAuth, (req, res) => {
-    res.sendFile('/public/carrito.html', {root: __dirname})
-})
-app.get('/login', (req, res) => {
-    res.sendFile('/public/login.html', {root: __dirname})
-})
-app.get('/register', (req, res) => {
-    res.sendFile('/public/register.html', {root: __dirname})
-})
-app.get('/profile', checkAuth, (req, res) => {
-    res.sendFile('/public/profile.html', {root: __dirname})
-})
 app.use('/auth', rutasAuth)
-
-// RUTAS API
-app.use('/api/productos', rutasProductos)
-app.use('/api/carrito', rutasCarrito)
+app.use('/productos', rutasProductos)
+app.use('/carrito', rutasCarrito)
 
 // HANDLE 404
 const handleBadRoute = (req, res) => {
