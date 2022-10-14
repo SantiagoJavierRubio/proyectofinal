@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import checkAuth from '../passport/checkAuth.js';
-import __dirname from '../dirname.js';
 import {
   eliminarCarrito,
   obtenerLista,
