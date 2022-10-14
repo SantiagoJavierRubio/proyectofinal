@@ -28,9 +28,13 @@ export const registrarUsuario = async (userData) => {
     !userData.telefono
   )
     throw new CustomError(400, 'Campos requeridos faltantes');
-  if (userData.password.length < 6) throw new CustomError(400, 'La contraseña debe contener al menos 6 caracteres')
+  if (userData.password.length < 6)
+    throw new CustomError(
+      400,
+      'La contraseña debe contener al menos 6 caracteres'
+    );
   const edad = Date.parse(userData.edad);
-  if (!edad) throw new CustomError(400, 'La fecha de nacimiento no es válida')
+  if (!edad) throw new CustomError(400, 'La fecha de nacimiento no es válida');
   const num = validatePhoneNumber(userData.areacode, userData.telefono);
   const registro = await usuarios.createNew({
     ...userData,
