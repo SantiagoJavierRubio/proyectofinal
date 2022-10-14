@@ -5,6 +5,7 @@ class Carrito {
         this.timestamp = Date.now()
         this.productos = []
     }
+    filePath = './persist/DB/carrito.json'
     async getNewId() {
         try {
             if(fs.existsSync(this.filePath)){
@@ -25,7 +26,6 @@ class Carrito {
             return null
         }
     }
-    filePath = './persist/DB/carrito.json'
 
     async save() {
         const cartData = {
@@ -42,7 +42,7 @@ class Carrito {
             } else {
                 await fs.promises.writeFile(this.filePath, JSON.stringify([cartData]))
             }
-            return this.id
+            return cartData.id
         } catch(err) {
             console.error(err)
             return null
@@ -56,10 +56,22 @@ class Carritos {
     async createNew() {
         try {
             const cart = new Carrito()
-            return await cart.save()
+            const new_id = await cart.save()
+            return new_id
         } catch(err) {
             console.error(err)
             return false
+        }
+    }
+    async checkExists(id) {
+        try {
+            const fileRead = await fs.promises.readFile(this.filePath)
+            const fileData = JSON.parse(fileRead)
+            const carro = fileData.filter(cart => cart.id == id)[0]
+            return carro ? true : false
+        } catch(err) {
+            console.error(err)
+            return null
         }
     }
     async getProducts(id) {
