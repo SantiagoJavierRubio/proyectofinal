@@ -8,7 +8,7 @@ import { eliminarProductosDelCarrito,
 export const eliminarCarrito = async (req, res, next) => {
     try{
         await eliminarProductosDelCarrito(req.user._id)
-        res.status(200).json({ message: 'Carrito eliminado correctamente' })
+        res.status(200).json({ message: 'Carrito vaciado correctamente' })
     } catch(err) {
         next(err)
     }
