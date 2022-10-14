@@ -1,5 +1,6 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
 import usuarios from '../daos/mongo/usuarios.js'
+import { enviarNuevoRegistro } from '../messaging/emails.js'
 
 export const login = async (req, res) => {
     try {
@@ -18,6 +19,9 @@ export const register = async (req, res) => {
         const registro = await usuarios.createNew({...req.body, edad: edad, telefono: num.formatInternational()})
         if(!registro) throw new Error('Error al registrar usuario')
         if(registro.error) throw new Error(registro.error)
+        const notificacionPorMail = enviarNuevoRegistro(registro)
+        if(notificacionPorMail?.error) console.log(notificacionPorMail.error)
+        if(notificacionPorMail?.rejected) console.log('Email was rejected')
         req.login(registro, err => {
             if(err) throw new Error(err.message)
         })
