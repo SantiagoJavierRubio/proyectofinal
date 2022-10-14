@@ -1,14 +1,14 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const schemaCarrito = new mongoose.Schema({
-    owner: mongoose.Types.ObjectId,
-    timestamp: {
-        type: Date,
-        default: Date.now()
-    },
-    productos: [Object]
-})
+  owner: mongoose.Types.ObjectId,
+  timestamp: {
+    type: Date,
+    default: Date.now(),
+  },
+  productos: [Object],
+});
 
-const Carrito = mongoose.model('carritos', schemaCarrito)
+const Carrito = mongoose.model('carritos', schemaCarrito);
 
-export default Carrito
+export default Carrito;

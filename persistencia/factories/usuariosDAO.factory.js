@@ -1,13 +1,13 @@
-import "dotenv/config"
-import mongoDAO from '../daos/mongo/usuarios.js'
+import 'dotenv/config';
+import MongoDAO from '../daos/mongo/usuarios.js';
 
-let usuariosDAO
+let usuariosDAO;
 
-switch(process.env.DATABASE) {
-    default:
-        usuariosDAO = new mongoDAO()
+switch (process.env.DATABASE) {
+  default:
+    usuariosDAO = new MongoDAO();
 }
 
 export const getUsuariosDAO = () => {
-    return usuariosDAO
-}
+  return usuariosDAO;
+};
