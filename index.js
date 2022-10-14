@@ -10,6 +10,7 @@ import passport from 'passport'
 import rutasProductos from './rutas/productos.js'
 import rutasCarrito from './rutas/carrito.js'
 import rutasAuth from './rutas/auth.js'
+import checkAuth from './passport/checkAuth.js'
 import './passport/localStrategy.js'
 
 // Workaround porque no funcionaba __dirname al trabajar en módulos (creo)
@@ -20,7 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Constantes globales
 const yargs = __yargs(process.argv.slice(2))
 const args = yargs
-    .default('puerto', 5000)
+    .default('puerto', 8080)
     .default('localDB', false)
     .default('CLUSTER', false)
     .argv
@@ -53,13 +54,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-const checkAuth = (req, res, next) => {
-    if(!req.isAuthenticated()) {
-        return res.redirect('/login')
-    }
-    next()
-}
-
 // RUTAS FRONT
 app.get('/', checkAuth, (req, res) => {
     res.sendFile('/public/home.html', {root: __dirname})
@@ -76,6 +70,9 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
     res.sendFile('/public/register.html', {root: __dirname})
 })
+app.get('/profile', checkAuth, (req, res) => {
+    res.sendFile('/public/profile.html', {root: __dirname})
+})
 app.use('/auth', rutasAuth)
 
 // RUTAS API
@@ -90,7 +87,6 @@ const handleBadRoute = (req, res) => {
     })
 }
 app.use(handleBadRoute)
-
 
 // START SERVER
 mongoose.connect(MONGO_URL, (err) => {

@@ -16,6 +16,17 @@
     position: absolute;
     top: 0.5rem;
     right: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+#profile-link {
+    font-size: 2rem;
+    border-radius: 50%;
+}
+#profile-link i {
+    margin: auto
 }
 #carrito-de-compras {
     width: 100%;

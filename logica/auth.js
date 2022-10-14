@@ -37,3 +37,13 @@ export const logout = async (req, res) => {
         res.status(400).json({ error: err.message })
     }
 }
+
+export const getUserData = async (req, res) => {
+    try {
+        if(req.user) return res.send(req.user)
+        else throw Error('User not found')
+    }
+    catch(err) {
+        res.status(400).json({ error: err.message })
+    }
+}
