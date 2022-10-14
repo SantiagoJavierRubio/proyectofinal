@@ -13,6 +13,19 @@ class ContenedorMongoDB {
         }
     }
 
+    async getOne(match, fields = null) {
+        try {
+          const result = fields
+            ? await this.model.findOne(match, fields)
+            : await this.model.findOne(match);
+          if (!result) return null;
+          return result;
+        }
+     catch (err) {
+          return new Error(`Error al obtener un elemento: ${err}`);
+        }
+      }
+
     async getAll() {
         try {
             const elementos = await this.model.find()
@@ -22,12 +35,15 @@ class ContenedorMongoDB {
         }
     }
 
-    async getById(id) {
+    async getById(id, fields=null) {
         try {
-            const elemento = await this.model.findById(id)
-            if(!elemento) throw new Error('elemento no encontrado')
-            return elemento
-        } catch(err) {
+            const result = fields
+              ? await this.model.findById(id, fields)
+              : await this.model.findById(id);
+            if (!result) return null;
+            return result;
+          }
+          catch(err) {
             return new Error(`Error al obtener elemento: ${err}`)
         }
     }

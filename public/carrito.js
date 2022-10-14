@@ -1,8 +1,7 @@
 
 window.onload = loadProducts
 function loadProducts(){
-    const cartID = window.localStorage.getItem('cartID')
-    fetch(`/api/carrito/${cartID}/productos`, { method: 'GET' })
+    fetch(`/api/carrito/productos`, { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(data => {
             const listaDeProductos = document.querySelector('#carrito-de-compras')
@@ -23,45 +22,55 @@ function loadProducts(){
                         <div class="col-sm-4">
                             <p class="precio-carrito">$${product.precio}</p>
                         </div>
-                        <button type="button" class="btn btn-danger remove-item-carrito" onclick="removeProduct(${product.id})">
+                        <button type="button" class="btn btn-danger remove-item-carrito" onclick="removeProduct('${product._id}')">
                             <span class="material-icons">delete</span>
                         </button>
                     </div>
                     `
                 }
                 document.querySelector('#vaciar-carrito').disabled = false
+                document.querySelector('#comprar').disabled = false
             } else {
                 listaDeProductos.innerHTML = '<h4 class="sin-productos">No hay productos</h4h>'
                 document.querySelector('#vaciar-carrito').disabled = true
+                document.querySelector('#comprar').disabled = true
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(err.message))
 }
 
 function removeProduct(prod_id){
-    const cartID = window.localStorage.getItem('cartID')
-    fetch(`api/carrito/${cartID}/productos/${prod_id}`, {
-        method: "DELETE"
+    fetch(`api/carrito/productos/${prod_id}`, {
+        method: "DELETE",
+        credentials: 'include'
     })
         .then(res => {
             if(res.ok) return loadProducts()
             throw new Error(res.statusText)
         })
-        .catch(err => console.error(err)
-    )
+        .catch(err => alert(err.message))
 }
 
 function emptyCart() {
-    const cartID = window.localStorage.getItem('cartID')
-    fetch(`/api/carrito/${cartID}`, {
-        method: "DELETE"
+    fetch(`/api/carrito`, {
+        method: "DELETE",
+        credentials: 'include'
     })
         .then(res => {
             if(res.ok){
-                window.localStorage.removeItem('cartID')
                 return window.location.href = '/'
             }
             throw new Error(res.statusText)
         })
         .catch(err => console.error(err))
+}
+
+function checkout() {
+    fetch('/api/carrito/checkout', {
+        method: "POST",
+        credentials: 'include'
+    })
+    .then(() => {
+        window.location.reload()
+    })
 }

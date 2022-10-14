@@ -17,9 +17,10 @@ class Productos extends ContenedorMongoDB {
             })
             return producto
         } catch(err) {
-            return new Error(`Error al crear producto: ${err}`)
+            return { error: err.message }
         }
     }
 }
 
-export default Productos
+const productos = new Productos()
+export default productos
