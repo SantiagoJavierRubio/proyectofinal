@@ -20,7 +20,10 @@ export const listarProductosDelCarrito = async (userId) => {
   return productos.getListByIds(listaIds);
 };
 
-export const agregarProductosYDevolverCarrito = async (userId, listaProductos) => {
+export const agregarProductosYDevolverCarrito = async (
+  userId,
+  listaProductos
+) => {
   return carritos.addProducts(userId, listaProductos);
 };
 export const quitarProductoDelCarrito = async (userId, productId) => {
