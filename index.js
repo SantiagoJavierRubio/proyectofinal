@@ -37,6 +37,13 @@ const handleBadRoute = (req, res) => {
 }
 app.use(handleBadRoute)
 
+// CONNECT DATABASE
+if(process.env.DATA_ACCESS_TYPE == 'MONGODB'){
+    const { default: mongoose } = await import('mongoose')
+    mongoose.connect('mongodb://localhost:27017/ecommerce')
+    console.log('connected?')
+}
+
 // START SERVER
 const PORT = process.env.PORT || 8080
 const server = app.listen(PORT, () => {

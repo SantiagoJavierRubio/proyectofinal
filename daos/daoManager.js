@@ -11,7 +11,9 @@ const getDaos = async () => {
             const { default: ProductosArchivo } = await import('./archivo/productos.js')
             return { carritos: new CarritoArchivo(), productos: new ProductosArchivo() }
         case 'MONGODB':
-            break
+            const { default: CarritoMongo } = await import('./mongo/carrito.js')
+            const { default: ProductosMongo } = await import('./mongo/productos.js')
+            return { carritos: new CarritoMongo(), productos: new ProductosMongo() }
         case 'FIREBASE':
             break
         default:
