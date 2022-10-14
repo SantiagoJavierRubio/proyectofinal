@@ -15,7 +15,8 @@ const router = Router();
 router.get('/', checkAuth, getUserData);
 router.post(
   '/login',
-  passport.authenticate('local'));
+  passport.authenticate('local'),
+  login);
 router.post('/register', register);
 router.get('/logout', logout);
 
