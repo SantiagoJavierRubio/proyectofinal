@@ -18,9 +18,7 @@ export const register = async (req, res) => {
         if(!isValidPhoneNumber(num.number)) throw new Error('Número de teléfono no válido')
         const registro = await usuarios.createNew({...req.body, edad: edad, telefono: num.formatInternational()})
         if(registro.error) throw new Error(registro.error)
-        const notificacionPorMail = enviarNuevoRegistro(registro)
-        if(notificacionPorMail?.error) console.log(notificacionPorMail.error)
-        if(notificacionPorMail?.rejected) console.log('Email was rejected')
+        await enviarNuevoRegistro(registro)
         req.login(registro, err => {
             if(err) throw new Error(err.message)
         })
