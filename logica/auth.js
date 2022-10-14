@@ -1,4 +1,4 @@
-import passport from 'passport'
+import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
 import usuarios from '../daos/mongo/usuarios.js'
 
 export const login = async (req, res) => {
@@ -13,7 +13,9 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
     try {
         const edad = Date.parse(req.body.edad)
-        const registro = await usuarios.createNew({...req.body, edad: edad})
+        const num = parsePhoneNumber(`${req.body.areacode}${req.body.telefono}`)
+        if(!isValidPhoneNumber(num.number)) throw new Error('Número de teléfono no válido')
+        const registro = await usuarios.createNew({...req.body, edad: edad, telefono: num.formatInternational()})
         if(!registro) throw new Error('Error al registrar usuario')
         if(registro.error) throw new Error(registro.error)
         req.login(registro, err => {

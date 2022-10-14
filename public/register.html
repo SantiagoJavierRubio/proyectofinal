@@ -12,7 +12,10 @@
         <div><label for="email">Email</label><input type="email" id="email" name="email" required></div>
         <div><label for="password">Contraseña</label><input type="password" id="password" name="password" required></div>
         <div><label for="edad">Fecha de nacimiento</label><input type="date" id="edad" name="edad" required></div>
-        <div><label for="tel">Telefono</label><input type="tel" id="tel" name="telefono" required></div>
+        <div><label for="tel">Telefono</label>
+            <input type="text" name="areacode" required placeholder="Area code" maxlength="4">
+            <input type="tel" id="tel" name="telefono" required>
+        </div>
         <div><label for="dir">Direccion</label><input type="text" id="dir" name="direccion" required></div>
         <div><label for="foto">Foto/avatar</label><input type="url" id="foto" name="foto" required></div>
         <input type="submit" value="Registrarme">
