@@ -1,0 +1,12 @@
+{{> navBar carrito="true"}}
+<div class="container">
+    <div id="carrito-de-compras">
+    </div>
+    <button class="btn btn-primary" id="comprar" onclick="checkout()" disabled>
+        Comprar <i class="fa-solid fa-cart-shopping"></i>
+    </button>
+    <button class="btn btn-danger" id="vaciar-carrito" onclick="emptyCart()" disabled>
+        Vaciar carrito <i class="fa-solid fa-circle-minus"></i>
+    </button>
+</div>
+<script src="/carrito.js"></script>

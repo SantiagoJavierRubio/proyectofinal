@@ -4,7 +4,7 @@ import { getAll,
     nuevoProducto,
     editarProducto,
     eliminarProducto,
-    revisarAutorizacion } from '../logica/productos.js'
+    revisarAutorizacion } from '../controladores/productos.js'
 
 const router = Router()
 

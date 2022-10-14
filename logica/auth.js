@@ -1,58 +1,30 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
-import usuarios from '../daos/mongo/usuarios.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAO.factory.js'
 import { enviarNuevoRegistro } from '../messaging/emails.js'
-import {errorLogger} from '../loggers/logger.js'
+import SendUserDTO from '../persistencia/DTOs/sendUser.dto.js'
+import CustomError from '../error_handling/customError.js'
 
-export const login = async (req, res) => {
-    try {
-        res.redirect('/')
-    }
-    catch(err) {
-        errorLogger.error(err)
-        res.status(401).json({ error: err.message })
-    }
-}
+const usuarios = getUsuariosDAO()
 
-export const register = async (req, res) => {
+const validatePhoneNumber = (areacode, phone) => {
     try {
-        const edad = Date.parse(req.body.edad)
-        const num = parsePhoneNumber(`${req.body.areacode}${req.body.telefono}`)
+        const num = parsePhoneNumber(`${areacode}${phone}`)
         if(!isValidPhoneNumber(num.number)) throw new Error('Número de teléfono no válido')
-        const registro = await usuarios.createNew({...req.body, edad: edad, telefono: num.formatInternational()})
-        if(registro.error) throw new Error(registro.error)
-        await enviarNuevoRegistro(registro)
-        req.login(registro, err => {
-            if(err) throw new Error(err.message)
-        })
-        res.redirect('/')
-    }
-    catch(err) {
-        errorLogger.error(err)
-        res.status(401).json({ error: err.message })
+        return num;
+    } catch (err) {
+        throw new CustomError(400, `Error al validar el teléfono: ${err.message}`)
     }
 }
 
-export const logout = async (req, res) => {
-    try {
-        req.logout()
-        req.session.destroy(() => {
-            res.clearCookie('connect.sid')
-            res.redirect('/')
-        })
-    }
-    catch(err) {
-        errorLogger.error(err)
-        res.status(400).json({ error: err.message })
-    }
+export const registrarUsuario = async (userData) => {
+    const edad = Date.parse(userData.edad)
+    const num = validatePhoneNumber(userData.areacode, userData.telefono);
+    const registro = await usuarios.createNew({...userData, edad: edad, telefono: num.formatInternational()})
+    await enviarNuevoRegistro(registro)
+    return registro
 }
 
-export const getUserData = async (req, res) => {
-    try {
-        if(req.user) return res.send(req.user)
-        else throw Error('User not found')
-    }
-    catch(err) {
-        errorLogger.error(err)
-        res.status(400).json({ error: err.message })
-    }
+export const buscarInfoDelUsuario = async (user) => {
+    if (user) return new SendUserDTO(user)
+    else return false
 }

@@ -24,7 +24,7 @@ function loadProducts(){
                                     <li class="list-group-item">$${product.precio}</li>
                                     <li class="list-group-item">${product.stock} en stock</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="agregarAlCarrito('${product._id}')" ${product.stock>0 ? null : "disabled"}>Agregar al carrito</button>
+                                <button class="btn btn-primary" onclick="agregarAlCarrito('${product.id}')" ${product.stock>0 ? null : "disabled"}>Agregar al carrito</button>
                             </div>
                         </div>
                     </div>
