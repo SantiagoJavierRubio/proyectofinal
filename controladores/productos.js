@@ -16,7 +16,7 @@ export const getAll = async (req, res, next) => {
 export const nuevoProducto = async (req, res, next) => {
     try {
         const addedProduct = await crearProducto(req.body)
-        return res.status(200).send(addedProduct)
+        return res.status(200).send({message: 'Producto creado', product: addedProduct})
     } catch(err) {
         next(err)
     }
@@ -24,7 +24,7 @@ export const nuevoProducto = async (req, res, next) => {
 export const editarProducto = async (req, res, next) => {
     try {
         const editedProduct = await cambiarInfoDeProducto(req.params.id, req.body)
-        return res.status(200).json(editedProduct)
+        return res.status(200).json({message: 'Producto editado', product: editedProduct})
     } catch(err) {
         next(err)
     }
@@ -32,7 +32,7 @@ export const editarProducto = async (req, res, next) => {
 export const eliminarProducto = async (req, res, next) => {
     try {
         const deletedProduct = await eliminarProductoPorId(req.params.id)
-        return res.status(200).json(deletedProduct)
+        return res.status(200).json({message: 'Producto eliminado', product: deletedProduct})
     } catch(err) {
         next(err)
     }
