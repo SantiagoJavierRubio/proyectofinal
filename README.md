@@ -22,12 +22,11 @@ $ npm run dev:admin
 # O indicar las constantes globales que quiera
     # ADMIN_EMAIL es el correo donde se enviarán los avisos de registro y orden
     # ADMIN_PHONE el celular donde se enviarán los whatsapp de aviso de orden
-    # ADMIN_MODE añadir cualquier valor para acceder al modo de administrador
     # puerto indica el puerto en el que correrá el servidor (8080 por defecto)
     # modo indica si el servidor iniciará en modo cluster o fork (fork por defecto)
-    # localDB indica si mongo se conectará a una base de datos local (cuya dirección debe estar especificada en .env)
+    # useCloudDB para poder usar la conexión cloud atlas de MONGODB en local
 
-$ [ADMIN_EMAIL={email}] [ADMIN_PHONE={telefono}] [ADMIN_MODE={}] node index.js --puerto={puerto} [--modo=cluster] [--localDB=true]
+$ [ADMIN_EMAIL={email}] [ADMIN_PHONE={telefono}] node index.js --puerto={puerto} [--modo=cluster] [--useCloudDB=true]
 ```
 
 Entrega final ->

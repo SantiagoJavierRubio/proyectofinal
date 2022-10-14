@@ -55,9 +55,7 @@ export const getUserData = async (req, res, next) => {
 };
 
 export const serveAdmin = async (req, res, next) => {
-  if (process.env.ADMIN_MODE) {
-    return res.render('admin');
-  }
+  if (req.isAdmin) return res.render('admin');
   res.status(401).json({
     error: -1,
     description: `ruta '${req.url} método ${req.method} no autorizada`,
