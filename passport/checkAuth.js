@@ -1,8 +1,8 @@
 const checkAuth = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    return res.redirect('/auth/login')
+    return res.redirect('/auth/login');
   }
-  if(req.user.email === 'admin@admin') req.isAdmin = true;
+  if (req.user.email === 'admin@admin') req.isAdmin = true;
   next();
 };
 

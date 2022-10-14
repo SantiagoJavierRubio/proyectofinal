@@ -18,11 +18,9 @@ import __dirname from './dirname.js';
 
 // Constantes globales
 const yargs = __yargs(process.argv.slice(2));
-const args = yargs
-  .default('puerto', 8080)
-  .default('modo', 'fork').argv;
+const args = yargs.default('puerto', 8080).default('modo', 'fork').argv;
 
-const DATABASE_LOCATION = process.env.NODE_ENV === 'production'
+const DATABASE_LOCATION = process.env.NODE_ENV === 'production';
 
 const MONGO_URL = DATABASE_LOCATION
   ? process.env.CLOUD_MONGO_URL

@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import mongoose from 'mongoose';
 
 class ContenedorMongoDB {
