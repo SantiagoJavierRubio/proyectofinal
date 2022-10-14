@@ -7,12 +7,12 @@
     gap: 1rem;
     margin-top: 3.5rem;
 }
-body>a {
+#viewchange {
     position: absolute;
     left: 1.5rem;
     top: 0.5rem;
 }
-body>button {
+.actions {
     position: absolute;
     top: 0.5rem;
     right: 1.5rem;
