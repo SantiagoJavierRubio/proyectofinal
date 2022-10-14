@@ -2,7 +2,7 @@ import fs from 'fs'
 
 class ContenedorArchivos {
     constructor(filename){
-        this.filepath = `./persist/DB/${filename}`
+        this.filepath = `./Database/Archivos/${filename}`
     }
 
     async getNewId() {
