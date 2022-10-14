@@ -16,7 +16,8 @@ router.get('/', checkAuth, getUserData);
 router.post(
   '/login',
   passport.authenticate('local'),
-  login);
+  login
+);
 router.post('/register', register);
 router.get('/logout', logout);
 
