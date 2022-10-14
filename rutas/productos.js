@@ -20,7 +20,7 @@ const revisarAutorizacion = (req, res, next) => {
 
 const router = Router()
 
-router.get('/:id', getAll)
+router.get('/:id?', getAll)
 router.post('/', revisarAutorizacion, nuevoProducto)
 router.put('/:id', revisarAutorizacion, editarProducto)
 router.delete('/:id', revisarAutorizacion, eliminarProducto)

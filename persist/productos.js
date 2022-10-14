@@ -81,6 +81,16 @@ export default class Productos {
             return null
         }
     }
+    async getManyById(id_list) {
+        try {
+            const fileRead = await fs.promises.readFile(this.filePath)
+            const fileData = JSON.parse(fileRead)
+            const productList = fileData.filter(file => id_list.includes(file.id))
+            return productList
+        } catch(err) {
+
+        }
+    }
     async deleteById(id) {
         try {
             const fileRead = await fs.promises.readFile(this.filePath)
