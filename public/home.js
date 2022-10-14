@@ -2,20 +2,9 @@ window.onload = startShop
 
 function startShop(){
     loadProducts()
-    createCart()
-}
-// A reemplazar cuando se utilicen sesiones u otro método
-function createCart(){
-    if(!window.localStorage.getItem('cartID')){
-        fetch('/api/carrito', {method: "POST"})
-            .then(res => res.json())
-            .then(data => {
-                window.localStorage.setItem('cartID', data.id)
-            })
-    }
 }
 function loadProducts(){
-    fetch('/api/productos', { method: 'GET' })
+    fetch('/api/productos', { method: 'GET', credentials: 'include' })
         .then(res => res.json())
         .then(data => {
             const listaDeProductos = document.querySelector('#lista-de-productos')
@@ -35,7 +24,7 @@ function loadProducts(){
                                     <li class="list-group-item">$${product.precio}</li>
                                     <li class="list-group-item">${product.stock} en stock</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="agregarAlCarrito(${product.id})" ${product.stock>0 ? null : "disabled"}>Agregar al carrito</button>
+                                <button class="btn btn-primary" onclick="agregarAlCarrito('${product._id}')" ${product.stock>0 ? null : "disabled"}>Agregar al carrito</button>
                             </div>
                         </div>
                     </div>
@@ -50,10 +39,10 @@ function loadProducts(){
 
 
 function agregarAlCarrito(id){
-    const cartID = window.localStorage.getItem('cartID')
     const payload = { productos: [id] }
-    fetch(`/api/carrito/${cartID}/productos`, {
+    fetch(`/api/carrito/productos`, {
             method: "POST",
+            credentials: 'include',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         })
