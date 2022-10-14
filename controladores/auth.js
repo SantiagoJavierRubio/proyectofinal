@@ -1,9 +1,11 @@
-import usuarios from '../persistencia/daos/mongo/usuarios.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAOFactory.js'
 import CustomError from '../error_handling/customError.js'
 import { errorHandler } from '../error_handling/errorHandler.js'
 import { errorLogger } from '../loggers/logger.js'
 import { registrarUsuario } from '../logica/auth.js';
 import passport from 'passport'
+
+const usuarios = getUsuariosDAO();
 
 export const login = async (req, res, next) => {
     try {
