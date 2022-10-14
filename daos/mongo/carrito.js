@@ -7,7 +7,7 @@ class Carrito extends ContenedorMongoDB {
     async createNew() {
         try {
             const carrito = await this.save({ productos: [] })
-            return carrito
+            return carrito._id
         } catch(err) {
             return new Error(`Error al crear el carrito: ${err}`)
         }
