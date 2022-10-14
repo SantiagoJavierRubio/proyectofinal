@@ -1,15 +1,11 @@
-import passport from 'passport';
-import { getUsuariosDAO } from '../persistencia/factories/usuariosDAO.factory.js';
 import CustomError from '../error_handling/customError.js';
-import { errorHandler } from '../error_handling/errorHandler.js';
-import { errorLogger } from '../loggers/logger.js';
 import { registrarUsuario, buscarInfoDelUsuario } from '../logica/auth.js';
-
-const usuarios = getUsuariosDAO();
 
 export const login = async (req, res, next) => {
   try {
-    res.redirect('/');
+    return res
+      .status(200)
+      .json({ message: 'Usuario logueado' });
   } catch (err) {
     return next(err);
   }
@@ -37,7 +33,9 @@ export const logout = async (req, res, next) => {
     req.logout();
     req.session.destroy(() => {
       res.clearCookie('connect.sid');
-      res.redirect('/');
+      res
+        .status(200)
+        .json({ message: 'Usuario deslogueado' });
     });
   } catch (err) {
     return next(err);
