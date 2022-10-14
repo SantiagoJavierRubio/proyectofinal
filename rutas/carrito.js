@@ -6,7 +6,7 @@ import { eliminarCarrito,
     agregarProductos,
     quitarProducto,
     realizarCompra
-} from '../logica/carrito.js'
+} from '../controladores/carrito.js'
 
 const router = Router()
 

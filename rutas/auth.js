@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
 import checkAuth from '../passport/checkAuth.js'
-import { login, register, logout, getUserData, serveAdmin } from '../logica/auth.js'
+import { login, register, logout, getUserData, serveAdmin } from '../controladores/auth.js'
 import "dotenv/config"
 
 const router = Router()
