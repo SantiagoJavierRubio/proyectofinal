@@ -21,7 +21,6 @@
   "homepage": "https://github.com/cabrerarodrigo/proyectofinal#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "uuid": "^8.3.2"
   },
