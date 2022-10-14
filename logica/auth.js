@@ -1,7 +1,9 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
-import usuarios from '../persistencia/daos/mongo/usuarios.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAOFactory.js'
 import { enviarNuevoRegistro } from '../messaging/emails.js'
 import CustomError from '../error_handling/customError.js'
+
+const usuarios = getUsuariosDAO()
 
 const validatePhoneNumber = (areacode, phone) => {
     try {
