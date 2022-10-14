@@ -29,6 +29,5 @@ passport.serializeUser((user, done) => {
 });
 passport.deserializeUser(async (id, done) => {
   const user = await usuarios.getById(id, '-password');
-  if (user.error) return done(user.error);
   return done(null, user);
 });
