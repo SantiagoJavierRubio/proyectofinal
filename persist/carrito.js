@@ -1,10 +1,10 @@
 import fs from 'fs'
 
 class Carrito {
-    constructor(productos=[]) {
+    constructor() {
         this.id = Carrito.incrementID()
         this.timestamp = Date.now()
-        this.productos = productos
+        this.productos = []
     }
     static incrementID() {
         if(!this.latestID) this.latestID = 1
@@ -39,9 +39,9 @@ class Carrito {
 export default class Carritos {
     filePath = './persist/DB/carrito.json'
 
-    async createNew(productos) {
+    async createNew() {
         try {
-            const cart = new Carrito(productos)
+            const cart = new Carrito()
             return await cart.save()
         } catch(err) {
             console.error(err)
@@ -52,18 +52,19 @@ export default class Carritos {
         try {
             const fileRead = await fs.promises.readFile(this.filePath)
             const fileData = JSON.parse(fileRead)
-            return fileData.filter(cart => cart.id == id).productos
+            const carro = fileData.filter(cart => cart.id == id)[0]
+            return carro.productos
         } catch(err) {
             console.error(err)
             return null
         }
     }
-    async addProducts(id, product) {
+    async addProducts(id, product_list) {
         try {
             const fileRead = await fs.promises.readFile(this.filePath)
             const fileData = JSON.parse(fileRead)
             const carro = fileData.filter(cart => cart.id == id)[0]
-            carro.productos = [ ...carro.productos, product ]
+            carro.productos = [ ...carro.productos, ...product_list ]
             const newList = [ ...fileData.filter(cart => cart.id != id), carro ]
             await fs.promises.writeFile(this.filePath, JSON.stringify(newList))
             return true
