@@ -11,7 +11,7 @@ class Carrito {
         else this.latestID++
         return this.latestID
     }
-    filePath = './persist/DB/carritos.json'
+    filePath = './persist/DB/carrito.json'
 
     async save() {
         const cartData = {
@@ -37,7 +37,7 @@ class Carrito {
 }
 
 export default class Carritos {
-    filePath = './persist/DB/carritos.json'
+    filePath = './persist/DB/carrito.json'
 
     async createNew(productos) {
         try {

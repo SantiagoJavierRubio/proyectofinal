@@ -1,7 +1,7 @@
 import express from 'express'
 import "dotenv/config"
-import * as rutasProductos from './rutas/productos'
-import * as rutasCarrito from './rutas/carrito'
+import * as rutasProductos from './rutas/productos.js'
+import * as rutasCarrito from './rutas/carrito.js'
 
 // SERVER SETUP
 const app = express()

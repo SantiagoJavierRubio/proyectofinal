@@ -1,4 +1,9 @@
 import { Router } from 'express'
+import { crearCarrito,
+    eliminarCarrito,
+    obtenerLista,
+    agregarProductos,
+    quitarProducto } from '../logica/carrito.js'
 
 const router = Router()
 
