@@ -1,12 +1,14 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
 import usuarios from '../daos/mongo/usuarios.js'
 import { enviarNuevoRegistro } from '../messaging/emails.js'
+import {errorLogger} from '../loggers/logger.js'
 
 export const login = async (req, res) => {
     try {
         res.redirect('/')
     }
     catch(err) {
+        errorLogger.error(err)
         res.status(401).json({ error: err.message })
     }
 }
@@ -25,6 +27,7 @@ export const register = async (req, res) => {
         res.redirect('/')
     }
     catch(err) {
+        errorLogger.error(err)
         res.status(401).json({ error: err.message })
     }
 }
@@ -35,6 +38,7 @@ export const logout = async (req, res) => {
         res.redirect('/login')
     }
     catch(err) {
+        errorLogger.error(err)
         res.status(400).json({ error: err.message })
     }
 }
@@ -45,6 +49,7 @@ export const getUserData = async (req, res) => {
         else throw Error('User not found')
     }
     catch(err) {
+        errorLogger.error(err)
         res.status(400).json({ error: err.message })
     }
 }

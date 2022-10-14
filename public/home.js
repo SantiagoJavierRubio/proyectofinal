@@ -34,7 +34,7 @@ function loadProducts(){
                 listaDeProductos.innerHTML = '<h4 class="sin-productos">No hay productos</h4h>'
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(err.message))
 }
 
 
@@ -50,5 +50,5 @@ function agregarAlCarrito(id){
             if(res.status = 200) return alert('Producto añadido')
             throw new Error(res.statusText)
         })
-        .catch(err => console.error(err))
+        .catch(err => alert(err.message))
 }
