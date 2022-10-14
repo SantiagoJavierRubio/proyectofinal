@@ -107,6 +107,7 @@ if(args.modo === 'cluster') {
     const { default: cluster } = await import('cluster')
     const { default: os } = await import('os')
     if(cluster.isMaster) {
+        console.log('Iniciando en modo CLUSTER')
         console.log(`Master ${process.pid} is running`)
         const cpuCount = os.cpus().length
         for(let i = 0; i < cpuCount; i++) {
@@ -114,10 +115,12 @@ if(args.modo === 'cluster') {
         }
         cluster.on('exit', (worker, code, signal) => {
             console.log(`worker ${worker.process.pid} died`)
+            cluster.fork()
         })
     } else {
         startServer()
     }
 } else {
+    console.log('Iniciando en modo FORK')
     startServer()
 }
