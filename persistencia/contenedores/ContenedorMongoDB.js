@@ -1,79 +1,54 @@
+import mongoose from 'mongoose';
+
 class ContenedorMongoDB {
-    constructor(model) {
-        this.model = model
-    }
+  constructor(model) {
+    this.model = model;
+  }
 
-    async save(elemento) {
-        try {
-            const nuevoElemento = new this.model(elemento)
-            await nuevoElemento.save()
-            return nuevoElemento
-        } catch(err) {
-            return new Error(`Error al guardar un nuevo elemento: ${err}`)
-        }
-    }
+  checkValidId(id) {
+    return mongoose.Types.ObjectId.isValid(id);
+  }
 
-    async getOne(match, fields = null) {
-        try {
-          const result = fields
-            ? await this.model.findOne(match, fields)
-            : await this.model.findOne(match);
-          if (!result) return null;
-          return result;
-        }
-     catch (err) {
-          return new Error(`Error al obtener un elemento: ${err}`);
-        }
-      }
+  async save(elemento) {
+    const nuevoElemento = new this.model(elemento);
+    await nuevoElemento.save();
+    return nuevoElemento;
+  }
 
-    async getAll() {
-        try {
-            const elementos = await this.model.find()
-            return elementos
-        } catch(err) {
-            return new Error(`Error al obtener elementos: ${err}`)
-        }
-    }
+  async getOne(match, fields = null) {
+    const result = fields
+      ? await this.model.findOne(match, fields)
+      : await this.model.findOne(match);
+    if (!result) return null;
+    return result;
+  }
 
-    async getById(id, fields=null) {
-        try {
-            const result = fields
-              ? await this.model.findById(id, fields)
-              : await this.model.findById(id);
-            if (!result) return null;
-            return result;
-          }
-          catch(err) {
-            return new Error(`Error al obtener elemento: ${err}`)
-        }
-    }
+  async getAll() {
+    return this.model.find();
+  }
 
-    async getMany(id_list) {
-        try {
-            const elementos = await this.model.find({'_id': { $in: id_list }})
-            return elementos
-        } catch(err) {
-            return new Error(`Error al obtener elementos: ${err}`)
-        }
-    }
+  async getById(id, fields = null) {
+    if (!this.checkValidId(id)) return null;
+    const result = fields
+      ? await this.model.findById(id, fields)
+      : await this.model.findById(id);
+    if (!result) return null;
+    return result;
+  }
 
-    async deleteById(id) {
-        try {
-            const deleted = await this.model.findByIdAndDelete(id)
-            return deleted
-        } catch(err) {
-            return new Error(`Error al eliminar elemento: ${err}`)
-        }
-    }
+  async getMany(idList) {
+    return this.model.find({ _id: { $in: idList } });
+  }
 
-    async update(id, elemento) {
-        try {
-            const updated = await this.model.findByIdAndUpdate(id, elemento)
-            return updated
-        } catch(err) {
-            return new Error(`Error al actualizar elemento: ${err}`)
-        }
-    }
+  async deleteById(id) {
+    if (!this.checkValidId(id)) return null;
+    return this.model.findByIdAndDelete(id);
+  }
+
+  async update(id, elemento) {
+    if (!this.checkValidId(id)) return null;
+    return this.model.findByIdAndUpdate(id, elemento);
+  }
 }
 
-export default ContenedorMongoDB
+export default ContenedorMongoDB;
