@@ -1,0 +1,26 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <form method="POST" action="/auth/login">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="text" required name="email" id="email" />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" required name="password" id="password" />
+                </div>
+                <input class="btn btn-primary btn-block mb-4" type="submit" value="Login">
+            </form>
+            <div class="text-center">
+                Primera vez? <a href="/auth/register">Registrate</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

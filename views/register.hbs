@@ -1,0 +1,45 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-4 text-center">
+            <form method="POST" action="/auth/register">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input class="form-control" type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" id="email" name="email" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="password">Contraseña</label>
+                    <input class="form-control" type="password" id="password" name="password" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="edad">Fecha de nacimiento</label>
+                    <input class="form-control" type="date" id="edad" name="edad" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="tel">Telefono</label>
+                    <input class="form-control form-control-sm" type="text" name="areacode" required placeholder="Area code" maxlength="4">
+                    <input class="form-control" type="tel" id="tel" name="telefono" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="dir">Direccion</label>
+                    <input class="form-control" type="text" id="dir" name="direccion" required>
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="foto">Foto/avatar</label>
+                    <input class="form-control" type="url" id="foto" name="foto" required>
+                </div>
+                <input class="btn btn-primary btn-block mb-4" type="submit" value="Registrarme">
+            </form>
+            <div class="text-center">Ya tienes una cuenta? <a href="/auth/login">Iniciar sesión</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
