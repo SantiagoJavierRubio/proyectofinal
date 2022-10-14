@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+        {{#if admin}}
+            {{#if adminView}}
+                <a href="/" target="_self">Vista de cliente</a>
+            {{else}}
+                <a href="/auth/admin" target="_self" id="viewchange">Vista de administrador</a>
+            {{/if}}
+        {{/if}}
+        {{#if profile}}
+            <a href="/">GO BACK</a>
+        {{else}}
+            <a href="/auth/profile" id="profile-link"><i class="fa-solid fa-user"></i></a>
+        {{/if}}
+        {{#if home}}
+            <button class="btn btn-info" type="button" onclick="window.location.href = '/carrito'">Ir al carrito</button>
+        {{/if}}
+        {{#if carrito}}
+            <button class="btn btn-info" type="button" onclick="window.location.href = '/'">Ver más productos</button>
+        {{/if}}
+        <a href="/auth/logout" id="logout"><button class="btn btn-danger">Cerrar sesión</button></a>
+  </div>
+</nav>

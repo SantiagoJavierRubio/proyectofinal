@@ -17,18 +17,19 @@ $ npm run start
 # O indicar las constantes globales que quiera
     # ADMIN_EMAIL es el correo donde se enviarán los avisos de registro y orden
     # ADMIN_PHONE el celular donde se enviarán los whatsapp de aviso de orden
+    # ADMIN_MODE añadir cualquier valor para acceder al modo de administrador
     # puerto indica el puerto en el que correrá el servidor (8080 por defecto)
     # modo indica si el servidor iniciará en modo cluster o fork (fork por defecto)
     # localDB indica si mongo se conectará a una base de datos local (cuya dirección debe estar especificada en .env)
 
-$ [ADMIN_EMAIL={email}] [ADMIN_PHONE={telefono}] node index.js --puerto={puerto} [--modo=cluster] [--localDB=true]
+$ [ADMIN_EMAIL={email}] [ADMIN_PHONE={telefono}] [ADMIN_MODE={}] node index.js --puerto={puerto} [--modo=cluster] [--localDB=true]
 ```
 
-Tercera entrega ->
-- Eliminé los contenedores y DAOs que no correspondían al trabajo con MongoDB y mongoose
-- Los DAOs ahora devuelven siempre un objeto {error: mensaje} en caso de fallar
-- Todos los elementos de configuración pasan a estar en variables de entorno
-- Los reportes del profiling hechos con artillery se encuentran en el directorio base (modo_fork.txt y modo_cluster.txt)
-- Los emails y mensajes de texto se enviaran a la dirección por default del administrador si no se especifican otros al iniciar el servidor
-- Las funcionalidades fueron testeadas por request desde Postman y con el front-end
+Entrega final ->
+- Mejor manejo de errores. Uso más apropiado de los códigos de estado HTTP en las respuestas.
+- Separación de capa de controladores y capa de lógica
+- Reorganización de la estructura de carpetas
+- Creación de factories para facilitar escalabilidad
+- Eliminación de redirects y procedimientos similares a favor de respuestas con objetos
+- Incorporación de handlebars para simplificar el renderizado
 
