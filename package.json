@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cabrerarodrigo/proyectofinal.git"
   },
-  "author": "",
+  "author": "Rodrigo Cabrera",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/cabrerarodrigo/proyectofinal/issues"
