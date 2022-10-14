@@ -1,6 +1,7 @@
 import Model from '../../Database/MongoDB/Models/producto.js'
 import ContenedorMongoDB from '../../contenedores/ContenedorMongoDB.js'
 import CustomError from '../../../error_handling/customError.js'
+import SendProductDTO from '../../DTOs/sendProduct.dto.js'
 import { v4 as uuid } from 'uuid'
 
 export default class Productos extends ContenedorMongoDB {
@@ -8,33 +9,36 @@ export default class Productos extends ContenedorMongoDB {
 
     async edit(id, userInput) {
         if(!await this.getById(id)) throw new CustomError(404, 'Error al editar: Producto no encontrado')
-        return await this.update(id, userInput)
+        const edited = await this.update(id, userInput)
+        return new SendProductDTO(edited)
     }
 
     async findOneById(id) {
         const result = await this.getById(id)
         if(!result) throw new CustomError(404, 'Producto no encontrado')
-        return result
+        return new SendProductDTO(result)
+    }
+
+    async listAll() {
+        const result = await this.getAll();
+        return result.map(product => new SendProductDTO(product))
     }
 
     async createNew({nombre, descripcion, foto, precio, stock}) {
-        try {
-            const producto = await this.save({
-                nombre: nombre,
-                descripcion: descripcion,
-                codigo: uuid(),
-                foto: foto,
-                precio: precio,
-                stock: stock,
-            })
-            return producto
-        } catch(err) {
-            return { error: err.message }
-        }
+        const producto = await this.save({
+            nombre: nombre,
+            descripcion: descripcion,
+            codigo: uuid(),
+            foto: foto,
+            precio: precio,
+            stock: stock,
+        })
+        return new SendProductDTO(producto)
     }
 
     async remove(id) {
         if(!await this.getById(id)) throw new CustomError(404, 'Error al eliminar: Producto no encontrado')
-        return await this.deleteById(id)
+        const deleted = await this.deleteById(id)
+        return new SendProductDTO(deleted)
     }
 }

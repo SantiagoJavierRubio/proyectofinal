@@ -1,8 +1,8 @@
-import { getUsuariosDAO } from '../persistencia/factories/usuariosDAOFactory.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAO.factory.js'
 import CustomError from '../error_handling/customError.js'
 import { errorHandler } from '../error_handling/errorHandler.js'
 import { errorLogger } from '../loggers/logger.js'
-import { registrarUsuario } from '../logica/auth.js';
+import { registrarUsuario, buscarInfoDelUsuario } from '../logica/auth.js';
 import passport from 'passport'
 
 const usuarios = getUsuariosDAO();
@@ -22,7 +22,9 @@ export const register = async (req, res, next) => {
         req.login(registro, err => {
             if(err) throw new CustomError(401, err.message)
         })
-        res.redirect('/')
+        const userData = await buscarInfoDelUsuario(registro)
+        if(userData) return res.status(201).json({ message: 'Usuario creado', user: userData })
+        else throw CustomError(404, 'User not found')
     }
     catch(err) {
         return next(err)
@@ -44,7 +46,8 @@ export const logout = async (req, res, next) => {
 
 export const getUserData = async (req, res, next) => {
     try {
-        if(req.user) return res.send(req.user)
+        const userData = await buscarInfoDelUsuario(req.user)
+        if(userData) return res.send(userData)
         else throw CustomError(404, 'User not found')
     }
     catch(err) {
