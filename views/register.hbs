@@ -4,7 +4,7 @@
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card shadow-2-strong" style="border-radius: 1rem;">
           <div class="card-body p-4 text-center">
-            <form method="POST" action="/auth/register">
+            <form>
                 <div class="form-outline mb-4">
                     <label class="form-label" for="nombre">Nombre</label>
                     <input class="form-control" type="text" id="nombre" name="nombre" required>
@@ -34,6 +34,7 @@
                     <label class="form-label" for="foto">Foto/avatar</label>
                     <input class="form-control" type="url" id="foto" name="foto" required>
                 </div>
+                <div style="visibility: hidden;" class="alert alert-danger" role="alert"></div>
                 <input class="btn btn-primary btn-block mb-4" type="submit" value="Registrarme">
             </form>
             <div class="text-center">Ya tienes una cuenta? <a href="/auth/login">Iniciar sesión</a></div>
@@ -42,4 +43,5 @@
       </div>
     </div>
   </div>
+  <script src="/register.js"></script>
 </section>

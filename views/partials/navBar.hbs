@@ -18,6 +18,16 @@
         {{#if carrito}}
             <button class="btn btn-info" type="button" onclick="window.location.href = '/'">Ver más productos</button>
         {{/if}}
-        <a href="/auth/logout" id="logout"><button class="btn btn-danger">Cerrar sesión</button></a>
+        <button id="logout" class="btn btn-danger">Cerrar sesión</button>
+        <script>
+            function logout() {
+                fetch('/auth/logout', {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .finally(() => window.location.href = '/auth/login')
+            }
+            window.onload = document.querySelector("#logout").addEventListener('click', logout)
+        </script>
   </div>
 </nav>
