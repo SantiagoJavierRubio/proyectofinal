@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import mongoose from 'mongoose'
+import { engine } from 'express-handlebars'
 import __yargs from 'yargs'
 import passport from 'passport'
 import rutasProductos from './rutas/productos.js'
@@ -11,9 +12,9 @@ import rutasCarrito from './rutas/carrito.js'
 import rutasAuth from './rutas/auth.js'
 import checkAuth from './passport/checkAuth.js'
 import { logger, errorLogger } from './loggers/logger.js'
+import { errorHandler, handleBadRoute } from './error_handling/errorHandler.js'
 import './passport/localStrategy.js'
 import __dirname from './dirname.js'
-
 
 // Constantes globales
 const yargs = __yargs(process.argv.slice(2))
@@ -51,21 +52,26 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+// HBS setup
+app.engine('hbs', engine({
+    extname: 'hbs',
+    defaultLayout: 'index.hbs',
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials"
+}))
+app.set('views', './views')
+app.set('view engine', 'hbs')
+
 // RUTAS FRONT
 app.get('/', checkAuth, (req, res) => {
-    res.sendFile('/public/home.html', {root: __dirname})
+    res.render('home', {admin: process.env.ADMIN_MODE})
 })
 app.use('/auth', rutasAuth)
 app.use('/productos', rutasProductos)
 app.use('/carrito', rutasCarrito)
 
-// HANDLE 404
-const handleBadRoute = (req, res) => {
-    res.status(404).json({
-        error: -2,
-        descripcion: `ruta '${req.url}' método '${req.method}' no implementada`
-    })
-}
+// ERROR HANDLING MIDDLEWARES
+app.use(errorHandler)
 app.use(handleBadRoute)
 
 // START SERVER
