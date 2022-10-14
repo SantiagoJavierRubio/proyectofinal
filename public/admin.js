@@ -54,7 +54,7 @@ function loadProducts(){
                 listaDeProductos.innerHTML = '<h4 class="sin-productos">No hay productos</h4h>'
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(err.message))
 }
 function listenToForms() {
     const forms = document.querySelectorAll('.product-edit-form')

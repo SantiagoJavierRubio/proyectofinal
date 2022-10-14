@@ -10,6 +10,7 @@ import rutasProductos from './rutas/productos.js'
 import rutasCarrito from './rutas/carrito.js'
 import rutasAuth from './rutas/auth.js'
 import checkAuth from './passport/checkAuth.js'
+import { logger, errorLogger } from './loggers/logger.js'
 import './passport/localStrategy.js'
 
 // Workaround porque no funcionaba __dirname al trabajar en módulos (creo)
@@ -92,14 +93,14 @@ const PORT = process.env.PORT || args.puerto
 
 const startServer = () => {
     mongoose.connect(MONGO_URL, (err) => {
-        if(err) return console.log(err)
-        console.log(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
+        if(err) return logger.error(err)
+        logger.info(`MongoDB conectado a ${args.localDB ? 'local' : 'cloud atlas'}`)
     })    
     const server = app.listen(PORT, () => {
-        console.log(`Servidor escuchando en el puerto ${PORT}`)
+        logger.info(`Servidor escuchando en el puerto ${PORT}`)
     })
     server.on('error', (err) => {
-        console.log(`Server error: ${err}`)
+        errorLogger.error(`Server error: ${err}`)
     })
 }
 
@@ -107,20 +108,20 @@ if(args.modo === 'cluster') {
     const { default: cluster } = await import('cluster')
     const { default: os } = await import('os')
     if(cluster.isMaster) {
-        console.log('Iniciando en modo CLUSTER')
-        console.log(`Master ${process.pid} is running`)
+        logger.info('Iniciando en modo CLUSTER')
+        logger.info(`Master ${process.pid} is running`)
         const cpuCount = os.cpus().length
         for(let i = 0; i < cpuCount; i++) {
             cluster.fork()
         }
         cluster.on('exit', (worker, code, signal) => {
-            console.log(`worker ${worker.process.pid} died`)
+            logger.warn(`worker ${worker.process.pid} died`)
             cluster.fork()
         })
     } else {
         startServer()
     }
 } else {
-    console.log('Iniciando en modo FORK')
+    logger.info('Iniciando en modo FORK')
     startServer()
 }

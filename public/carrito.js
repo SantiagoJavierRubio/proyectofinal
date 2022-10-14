@@ -36,7 +36,7 @@ function loadProducts(){
                 document.querySelector('#comprar').disabled = true
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(err.message))
 }
 
 function removeProduct(prod_id){
@@ -48,8 +48,7 @@ function removeProduct(prod_id){
             if(res.ok) return loadProducts()
             throw new Error(res.statusText)
         })
-        .catch(err => console.error(err)
-    )
+        .catch(err => alert(err.message))
 }
 
 function emptyCart() {

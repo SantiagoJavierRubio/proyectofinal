@@ -1,4 +1,5 @@
 import productos from '../daos/mongo/productos.js'
+import {errorLogger} from '../loggers/logger.js'
 
 export const getAll = async (req, res, next) => {
     try {
@@ -13,7 +14,8 @@ export const getAll = async (req, res, next) => {
             return res.status(200).json(productList)
         }
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const nuevoProducto = async (req, res, next) => {
@@ -23,7 +25,8 @@ export const nuevoProducto = async (req, res, next) => {
         if(addedProduct.error) throw new Error(addedProduct.error)
         return res.status(200).send(addedProduct)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const editarProducto = async (req, res, next) => {
@@ -36,7 +39,8 @@ export const editarProducto = async (req, res, next) => {
         if(!editedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const eliminarProducto = async (req, res, next) => {
@@ -48,7 +52,8 @@ export const eliminarProducto = async (req, res, next) => {
         if(!deletedProduct) return res.sendStatus(500)
         return res.sendStatus(200)
     } catch(err) {
-        console.error(err)
+        errorLogger.error(err)
+        res.status(500).json({ error: err.message })
     }
 }
 export const revisarAutorizacion = async (req, res, next) => {
