@@ -1,4 +1,8 @@
 import { Router } from 'express'
+import { getAll,
+    nuevoProducto,
+    editarProducto,
+    eliminarProducto } from '../logica/productos.js'
 
 const revisarAutorizacion = (req, res, next) => {
     // Aquí iría la lógica para revisar si el usuario está o no autorizado
@@ -16,7 +20,7 @@ const revisarAutorizacion = (req, res, next) => {
 
 const router = Router()
 
-router.get('/:id', getAll)
+router.get('/:id?', getAll)
 router.post('/', revisarAutorizacion, nuevoProducto)
 router.put('/:id', revisarAutorizacion, editarProducto)
 router.delete('/:id', revisarAutorizacion, eliminarProducto)
