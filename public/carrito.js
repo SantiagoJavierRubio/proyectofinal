@@ -29,9 +29,11 @@ function loadProducts(){
                     `
                 }
                 document.querySelector('#vaciar-carrito').disabled = false
+                document.querySelector('#comprar').disabled = false
             } else {
                 listaDeProductos.innerHTML = '<h4 class="sin-productos">No hay productos</h4h>'
                 document.querySelector('#vaciar-carrito').disabled = true
+                document.querySelector('#comprar').disabled = true
             }
         })
         .catch(err => console.log(err))
@@ -62,4 +64,14 @@ function emptyCart() {
             throw new Error(res.statusText)
         })
         .catch(err => console.error(err))
+}
+
+function checkout() {
+    fetch('/api/carrito/checkout', {
+        method: "POST",
+        credentials: 'include'
+    })
+    .then(() => {
+        window.location.reload()
+    })
 }
