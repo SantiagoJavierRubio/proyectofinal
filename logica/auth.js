@@ -1,6 +1,7 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
-import { getUsuariosDAO } from '../persistencia/factories/usuariosDAOFactory.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAO.factory.js'
 import { enviarNuevoRegistro } from '../messaging/emails.js'
+import SendUserDTO from '../persistencia/DTOs/sendUser.dto.js'
 import CustomError from '../error_handling/customError.js'
 
 const usuarios = getUsuariosDAO()
@@ -21,4 +22,9 @@ export const registrarUsuario = async (userData) => {
     const registro = await usuarios.createNew({...userData, edad: edad, telefono: num.formatInternational()})
     await enviarNuevoRegistro(registro)
     return registro
+}
+
+export const buscarInfoDelUsuario = async (user) => {
+    if (user) return new SendUserDTO(user)
+    else return false
 }
