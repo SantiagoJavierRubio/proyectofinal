@@ -1,6 +1,8 @@
 import passport from 'passport'
 import * as passportLocal from 'passport-local'
-import usuarios from '../persistencia/daos/mongo/usuarios.js'
+import { getUsuariosDAO } from '../persistencia/factories/usuariosDAOFactory.js'
+
+const usuarios = getUsuariosDAO()
 
 const LocalStrategy = passportLocal.Strategy
 
