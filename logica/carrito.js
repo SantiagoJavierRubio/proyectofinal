@@ -18,7 +18,7 @@ export const checkExists = async (req, res, next) => {
 export const crearCarrito = async (req, res, next) => {
     try{
         const nuevoCarrito = await carritos.createNew()
-        if(!nuevoCarrito) return res.sendStatus(500)
+        if(nuevoCarrito == null) return res.sendStatus(500)
         res.status(200).json({ id: nuevoCarrito })
     } catch(err) {
         console.error(err)

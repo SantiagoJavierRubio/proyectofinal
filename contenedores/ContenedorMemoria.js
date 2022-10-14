@@ -14,7 +14,7 @@ class ContenedorMemoria {
     }
 
     getById(id) {
-        const elemento = this.elementos.find(el => el.id == id)
+        const elemento = this.elementos.find(el => el.id == Number(id))
         if(!elemento){
             throw new Error('Error al obtener un elemento: elemento no encontrado')
         } else {
@@ -35,9 +35,8 @@ class ContenedorMemoria {
         return elemento
     }
 
-    update(elemento) {
-        elemento.id = Number(elemento.id)
-        const index = this.elementos.findIndex(el => el.id == elemento.id)
+    update(id, elemento) {
+        const index = this.elementos.findIndex(el => el.id == id)
         if(index == -1) {
             throw new Error('Error al actualizar elemento: elemento no encontrado')
         } else {
@@ -47,7 +46,7 @@ class ContenedorMemoria {
     }
 
     deleteById(id) {
-        const index = this.elementos.findIndex(el => el.id ==id)
+        const index = this.elementos.findIndex(el => el.id == Number(id))
         if(index == -1) {
             throw new Error('Error al eliminar elemento: elemento no encontrado')
         } else {
