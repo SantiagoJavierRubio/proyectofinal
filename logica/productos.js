@@ -55,7 +55,7 @@ export const revisarAutorizacion = async (req, res, next) => {
     // Aquí iría la lógica para revisar si el usuario está o no autorizado
     const administrador = true
     // -- //
-    if(auth) {
+    if(administrador) {
         return next()
     } else {
         res.status(401).json({
