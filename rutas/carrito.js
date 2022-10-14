@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import passport from 'passport'
 import { crearCarrito,
     eliminarCarrito,
     obtenerLista,
@@ -8,6 +9,7 @@ import { crearCarrito,
 
 const router = Router()
 
+router.use(passport.authenticate('local', {failureRedirect: '/login'}))
 router.post('/', crearCarrito)
 router.delete('/:id', checkExists, eliminarCarrito)
 router.get('/:id/productos', checkExists, obtenerLista)
