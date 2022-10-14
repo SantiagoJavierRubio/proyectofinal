@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid'
 
 class Producto {
     constructor({nombre, descripcion, foto, precio, stock}) {
-        this.id = Producto.incrementID()
         this.timestamp = Date.now()
         this.nombre = nombre
         this.descripcion = descripcion
@@ -12,16 +11,31 @@ class Producto {
         this.precio = precio
         this.stock = stock
     }
-    static incrementID() {
-        if(!this.latestID) this.latestID = 1
-        else this.latestID++
-        return this.latestID
+    async getNewId() {
+        try {
+            if(fs.existsSync(this.filePath)){
+                const fileRead = await fs.promises.readFile(this.filePath)
+                const fileData = JSON.parse(fileRead)
+                let newID = 0
+                for(let producto of fileData) {
+                    if(producto.id >= newID){
+                        newID = producto.id+1
+                    }
+                }
+                return newID
+            } else {
+               return 0
+            }
+        } catch(err) {
+            console.error(err)
+            return null
+        }
     }
     filePath = './persist/DB/productos.json'
 
     async save() {
         const productData = {
-            id: this.id,
+            id: await this.getNewId(),
             timestamp: this.timestamp,
             nombre: this.nombre,
             descripcion: this.descripcion,
@@ -47,7 +61,7 @@ class Producto {
     }
 }
 
-export default class Productos {
+class Productos {
     filePath = './persist/DB/productos.json'
 
     async createNew(productData) {
@@ -121,3 +135,6 @@ export default class Productos {
         }
     }
 }
+
+const productos = new Productos()
+export default productos
