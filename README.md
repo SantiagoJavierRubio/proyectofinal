@@ -1,6 +1,8 @@
 # proyectofinal
 Proyecto final para el curso de backend de Coderhouse
 
+[Demo en heroku](https://ecommerce-coderhouse-cabrera.herokuapp.com/)
+
 Para probar el código:
 - Completar las variables de entorno necesarias en un archivo .env (siguiendo el formato de .env.example)
 
@@ -12,7 +14,10 @@ $ git clone https://github.com/cabrerarodrigo/proyectofinal
 $ npm install
 
 # Correr el servidor
-$ npm run start
+$ npm run start # o npm run dev para usar nodemon
+
+# MODO administrador con nodemon
+$ npm run dev:admin
 
 # O indicar las constantes globales que quiera
     # ADMIN_EMAIL es el correo donde se enviarán los avisos de registro y orden
@@ -29,7 +34,8 @@ Entrega final ->
 - Mejor manejo de errores. Uso más apropiado de los códigos de estado HTTP en las respuestas.
 - Separación de capa de controladores y capa de lógica
 - Reorganización de la estructura de carpetas
+- Adición de DTOs de salida para estandarizar la información
 - Creación de factories para facilitar escalabilidad
-- Eliminación de redirects y procedimientos similares a favor de respuestas con objetos
+- Suplantación de varios redirects y procedimientos similares a favor de respuestas con objetos
 - Incorporación de handlebars para simplificar el renderizado
 
