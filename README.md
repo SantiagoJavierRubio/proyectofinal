@@ -21,7 +21,5 @@ $ npm i nodemon -D
 $ npm run dev
 ```
 
-Segunda entrega -> 
-- Seleccionar el tipo de persistencia de datos en el archivo .env
-- La variable 'administrador' establece los permisos necesarios
-- Las pruebas con el front-end no están actualizadas, sólo las probé con Postman
+Tercera entrega ->
+
